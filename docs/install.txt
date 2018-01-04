@@ -1,0 +1,102 @@
+INSTALL/UNISTALL
+=================
+
+Detailed instructions on installing modules are available in the XOOPS Operations Manual: http://goo.gl/adT2i
+
+NOTE: If you are upgrading, skip this step!
+
+The installation of this module is standard to any XOOPS site. There is one exception to the installation noted below to have Statistics running on your site.
+
+1) Log in to your XOOPS site as ADMIN
+2) Go to your XOOPS administration cPanel
+3) Copy the Statistics package to the modules directory
+4) Install Statistics module
+    select the System Admin->Modules link.
+    Locate the Statistics module in the lower list of the screen
+    Select the icon to install the module
+    Confirm your installation
+    You should see a screen with the information showing the module has been installed. You can return to Module administration.
+    If you are using custom templates for your site, make sure you generate the new ones with a fresh install of XOOPStats
+
+5) There is a minor requirement to make this thing go.
+    Add the following line to your header.php file located in the root of XOOPS
+
+    include_once XOOPS_ROOT_PATH.'/modules/statistics/include/hitcounter.php';
+
+        at the top of the file header.php under the line
+        include_once XOOPS_ROOT_PATH.'/class/xoopsblock.php';
+
+6) You should now be collecting data
+7) There are two blocks included with this module, activate as you would any block on your XOOPS site.
+    Hitcounter - shows a graphical representation of the hits to your site. Check the options as listed above.
+    Referers - shows the referers that have come to your site.
+
+UPGRADE
+================
+
+There has been many table changes to allow the new functionality of tracking referers, and a new table for holding your blacklist, and counting blocked hits. I have supplied the proper raw sql files in the statistics/sql folder. I have also created an upgrade script to facilitate the upgrade of tables if you are not comfortable with sql files. Please follow these recommended steps for a successful upgrade!
+
+1) Log in to your XOOPS site as ADMIN
+2) Go to your XOOPS administration cPanel
+3) Deactivate the Statistics module
+    Uncheck the Active box for Statistics
+    Select Submit
+4) Copy the Statistics package to the modules directory
+5) Go to the Admin/Modules panel and Update teh XOOPStats module
+6) Run modules/statistics/admin/upgrade.php
+    If SUCCESS, upgrade complete
+    If WARNINGS - you may be fine.
+    If ERRORS - upgrade failed.
+7) If you are running custom templates, delete them for Site Statistics, re-generate.
+8) Go to the Admin cPanel of your XOOPS site.
+9) Update the Statistics module
+    select the System Admin->Modules link.
+    select the upgrade option for Statistics
+10) Activate the statistics module
+    Check the Active box for Statistics
+    Select Submit
+11) Don't foget to check the settings for the Referers block!
+
+ALL INSTALLATIONS - Activating User Screen Width and Color Depth
+===================================================================
+
+The capturing of screen width and color depth is not required for the active collection of stats data for your site. If you would like to capture this addtional data, you will need to activate the javascript required for reading this data from the users screen. This is very simple!
+
+1) Use the following script code:
+
+<script language="javascript">
+<!--
+writeCookie();
+
+function writeCookie()
+{
+ var today = new Date();
+ var the_date = new Date("December 25, 2012");
+ var the_cookie_date = the_date.toGMTString();
+ var the_cookie = "sw=" + screen.width +
+      "; expires=" + the_cookie_date +
+      "; path=/" +
+      "; domain=";
+
+ document.cookie=the_cookie
+
+ var today = new Date();
+ var the_date = new Date("December 25, 2012");
+ var the_cookie_date = the_date.toGMTString();
+ var the_cookie = "sc=" + screen.colorDepth +
+      "; expires=" + the_cookie_date +
+      "; path=/" +
+      "; domain=";
+
+ document.cookie=the_cookie
+}
+//-->
+</script>
+
+2) Make sure it is contained within the valid script tags for Javascript!!!
+3) Log in as admin to your site
+4) Select Sytem Admin->Preferences
+5) Select Edit Meta Tags and Footer
+6) Add the Javascript provided anywhere within the FOOTER text entry field (this will activate for all themes that are properly supporting the xoops_footer Smarty tag. They all should be!
+7) Save your settings!
+8) This counts for visitors in your site, not admin pages.

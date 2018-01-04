@@ -1,0 +1,125 @@
+0.70 Beta 2       2014-04-23
+=================================
+- moved all images, CSS, and JS files to /assets (mamba)
+- renamed .html Smarty templates to .tpl (mamba)
+
+
+0.70 Beta 1  2013-04-21
+=================================
+- Converted to XOOPS 2.5.5 Admin GUI (Mamba)
+
+
+0.60 Final
+=================================
+- This version has the following features:
+    - Security Checkers
+    - DoS Attack
+    - Method Checker
+    - IP Checker
+    - Modified the referer blacklist to actually block them from your site. No need to have unwanted traffic, and they aren't really traffic for you anyway.
+    - Modified the menu system so that ananymous can't view any referers to your site. The exception is blocks. You still have the freedom to do anything you want there!
+- New Languages!
+    - Spanish - josespi (http://www.planpasperu.org.pe)
+    - Bulgarian Unicode - ep98
+- Added the following bots
+    - Added bot wwwster to the list (uni-muenchen.de)
+    - Added ZyBorg to the list (not a good acting bot - ignores robots.txt)
+    - Added sherlock and accomplice holmes - both bad, you should block them!
+    - Added ConveraCrawler - jury is out, but can drain your bandwidth!
+    - Added "seer" - pronounced "see-er" - Alternate search bots
+    - Added "claymont" - alternate search bot
+- Added tracking of IP to Referer - ADMIN Function
+- Fixed a small problem where query and fragments were not supported by Windows flavor servers - (BLAH Windows!)
+- Fixed a small problem when displaying PHP Credits in the ADMIN section
+- Fixed problem when showing hit details for following month in a given year
+- fixed a division by zero ;-)(0) problem
+- Fixed a problem initializing a variable in statutils.php
+- Added counters for blocked bots and referers
+- Added details page for blocked hits - Year, Month, Day, and Hour
+- Added auto-purge option for referers list (in case it gets too big, and the webmaster isn't paying attention!) ;-)
+- Added Preferences for REFERER SPAM -
+    - Forbidden - blocked from site
+    - Reflect - Redirected to the referer address - kind of evil ;->
+        - Redirection works by stripping 'domain.tld' from the fully qualifed name 'http://somewhere.domain.tld' and redirecting to just 'http://domain.tld' where domain is the main domain name and tld is the top level domain such as .com, .net, .org, or whatever it may be.
+    - Ignore - counts them, but doesn't show them
+    - Allow - Does nothing
+- Added Preferences for Filtering of IP addresses from hits counter - webmaster feature. I.e. - If a webmaster is maintaining the site a lot, and doesn't want to be counted.
+    - Switch to turn it ON or off - defualt is OFF
+    - IP address entry of IP's you don't want to count.
+      This option is NOT intended to block the IP, just not count the visit from the IP. It is for Webmasters that are monitoring their sites, and don't want to count their visits, etc.
+- Added Preferences to allow the entry of bot names to track and count.
+- Added Preferences to enter and block identified bots from the site
+- Swith to turn it ON or OFF - default is OFF
+- Entry for the bots/harvesters/copyright checkers, etc. that you want to block
+
+
+0.45 Final
+=================================
+This version has the following features:
+
+- Italian by Juri Montico - no site , yet!
+- Fixed issues with IIS and $_SERVER calls
+- Added reverse lookup information for IP addresses (ADMIN functions)
+- Added xWhois functions for Domain Names (ADMIN functions)
+- Added query string and fragment string on refer table (ADMIN functions)
+- Added stats for
+    - mydownloads
+    - WF-Downloads
+    - AMS
+- A big thank you to user rnijdam for the Dutch language files!
+- Added SQL ordering to the referers table (ADMIN functions)
+- Added sorting for IP (ADMIN functions)
+- Full screen width and color depth is tracked (ADMIN functions)
+- Added intelligence for
+    - DeepNet Browser (seeing a lot more of these)
+    - Avant Browser - better than IE alternative
+    - DigExt Offline crawler - these can hammer a site! Watch out!
+    - Waypath - blog seeker
+    - SharpReader - RSS Feed collector
+    - Turnitinbot - although always collected - be aware that this is out there. It's a plagerism serarcher that reports back. Although their site http://www.turnitin.com/robot/crawlerinfo.html states it's nice and pays attention to robots.txt, my logs beg to differ! This used to be Slysearch.
+- MediaPartners - Google - No longer identifies as a bot, it's for AdSense
+
+
+0.30 Final
+=================================
+- Portuguese/Brazil by gibaphp (http://www.xoopstotal.com.br)
+- Fixes to work with TinyContent v1.5
+- Stats showing number of online users
+- Stats showing number of TinyContent articles
+- New Options in the referers block to display:
+    - Domain and path as one link - click and go to the exact referring page.
+    - Domain only - track the refers from the domain regardless of path. The link goes to the domain only.
+    - Domain and path as seperate links - have links to the site, and the links to the full path from the referer
+- Admin refers table now has the DNS link and the full path link seperate. NOTE: The path is not tracked if the block option has Domain Only selected.
+- All fucntionality of the hitcounter.php have been encapsulated. There are no global conflicts!
+- REFERER Blacklist - this enables you to prevent certain domains from displaying to your users. All domains are tracked. If you want to BLACKLIST from your site, be sure to use the built-in XOOPS IP Blacklist in your preferences!
+
+
+0.20 Final
+=================================
+- German translation and XOOP graphics by baerchn (http://xoops-city.de)
+- Fixes to work with xoopsgallery
+- Additional stats to show the number of albums and images in xoopsgallery
+
+
+0.10 Final1
+=================================
+ADMIN Functions
+
+Full featured PHPInfo for admins. How many times have you needed to install a mod or hack that required certian PHP settings, but you struggled finding them? Well, we have it broken out for you. You can get the full listing, general listing, credits, configuration, modules, environment, variables, and license.
+
+Visitors by IP - We track the nubmer of times a unique IP visits your site, the date and time stamp as well. The table presented shows the number of hits for a given IP during an hourly timefram. You also have the ability to purge this table at anytime.
+
+Refers - This gives you ALL referers to your site. Again, based on date and hour timestamp. You will see the total number of hits for a given referer. The table displays the HOST name, but the link takes you to the full referer path!
+
+Templates - Everything has templates! So, modify to your hearts content! The entire package is fully integrated with the power of XOOPS!
+
+USER Functions - Here's where the real sweet fetures are located!
+
+BLOCKS - First off, there are 2 blocks in this release.
+- Site Hits - This block shows the total hits for the site. Your standard hits block, but with a twist. You have admin options to show just total hits, or total hits, and historically the totals hits for previous years! This one looks good as a side or center.
+- Referers Hits - This block allows you to show the top referers. Admin options allow you to specify how many to display, and whether you want to include refers from "self." In other words, see refers from your own site to your own site! Blacklisting option - it's tracked, but not displayed. This one looks good as a center. Too much detail for a side!
+
+Site Statistics
+- Basic Statistics - This shows you the number of unique hits from browsers, and there are a bunch supported! We track BOT/SPIDER visits. This logic is updated regularly as we track the new ones that are born almost daily! It tracks the number of unique O/S's. We've also tied it to XOOPS standard modules to show links, news, users, content, etc. If the mod isn't active, the data doesn't display! Finally, we show the visitor's browser to them. We know what you use!
+- Hit Details - This shows the hits for the year, months in the year, days in the month, and hourly hits. Each entry in the tables have a link to display specifics for a particular day. Do you want to know the specifics for 3 days ago? You can click that day, and get the details!
