@@ -19,7 +19,7 @@
 
 use XoopsModules\Statistics;
 
-require_once __DIR__ . '/../class/Helper.php';
+// require_once __DIR__ . '/../class/Helper.php';
 //require_once __DIR__ . '/../include/common.php';
 $helper = Statistics\Helper::getInstance();
 

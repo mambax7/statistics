@@ -33,7 +33,7 @@ function b_hitcounter_show($options)
     $counter  = 0;
     $yearhits = [];
     $cnt      = 0;
-    while (list($year, $hits) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($year, $hits) = $xoopsDB->fetchRow($result))) {
         $counter += $hits;  // figure out total hits
 
         $yearhits[$cnt]['year']    = $year;
@@ -69,7 +69,7 @@ function b_hitcounter_show($options)
         $bcounter  = 0;
         $byearhits = [];
         $cnt       = 0;
-        while (list($year, $hits) = $xoopsDB->fetchRow($result)) {
+        while (false !== (list($year, $hits) = $xoopsDB->fetchRow($result))) {
             $bcounter += $hits;  // figure out total hits
 
             $byearhits[$cnt]['year']    = $year;

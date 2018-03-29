@@ -3,19 +3,19 @@
 include __DIR__ . '/../../mainfile.php';
 include __DIR__ . '/include/statutils.php';
 
-if (!isset($HTTP_POST_VARS['op'])) {
-    $op = isset($HTTP_GET_VARS['op']) ? $HTTP_GET_VARS['op'] : 'main';
+if (!isset($_POST['op'])) {
+    $op = isset($_GET['op']) ? $_GET['op'] : 'main';
 } else {
-    $op = $HTTP_POST_VARS['op'];
+    $op = $_POST['op'];
 }
-if (isset($HTTP_GET_VARS['year'])) {
-    $year = $HTTP_GET_VARS['year'];
+if (isset($_GET['year'])) {
+    $year = $_GET['year'];
 }
-if (isset($HTTP_GET_VARS['month'])) {
-    $month = $HTTP_GET_VARS['month'];
+if (isset($_GET['month'])) {
+    $month = $_GET['month'];
 }
-if (isset($HTTP_GET_VARS['date'])) {
-    $date = $HTTP_GET_VARS['date'];
+if (isset($_GET['date'])) {
+    $date = $_GET['date'];
 }
 
 include XOOPS_ROOT_PATH . '/header.php';

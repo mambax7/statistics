@@ -14,7 +14,11 @@
 /* the Free Software Foundation; either version 2 of the License.       */
 /************************************************************************/
 
-require_once XOOPS_ROOT_PATH . '/modules/statistics/language/' . $xoopsConfig['language'] . '/main.php';
+use XoopsModules\Statistics;
+
+/** @var Statistics\Helper $helper */
+$helper = Statistics\Helper::getInstance();
+$helper->loadLanguage('main');
 // Load required configs
 global $stats_secure_const, $configHandler, $xoopsStatConfig;
 
@@ -983,8 +987,8 @@ function get_get_string()
     $getstring = '';
     if (isset($_GET)) {
         $ST_GET = $_GET;
-    } elseif (isset($HTTP_GET_VARS)) {
-        $ST_GET = $HTTP_GET_VARS;
+    } elseif (isset($_GET)) {
+        $ST_GET = $_GET;
     } elseif (getenv('GET')) {
         $ST_GET = getenv('GET');
     } else {
@@ -1006,8 +1010,8 @@ function get_post_string()
     $poststring = '';
     if (isset($_POST)) {
         $ST_POST = $_POST;
-    } elseif (isset($HTTP_POST_VARS)) {
-        $ST_POST = $HTTP_POST_VARS;
+    } elseif (isset($_POST)) {
+        $ST_POST = $_POST;
     } elseif (getenv('POST')) {
         $ST_POST = getenv('POST');
     } else {

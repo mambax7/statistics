@@ -38,7 +38,7 @@ class xWhois
         if (false !== strpos($domain, '.tv')) {
             //$result = "'.tv' domain names require you to have an account to do whois searches.";
             $result = "Please contact us regarding the $domain";
-            // New domains fix (half work, half don't)
+        // New domains fix (half work, half don't)
         } elseif (false !== strpos($domain, '.name') || false !== strpos($domain, '.pro') > 0) {
             //$result = ".name,.pro require you to have an account to do whois searches.";
             $result = "Please contact us regarding $domain";

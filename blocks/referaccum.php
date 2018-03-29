@@ -50,7 +50,7 @@ function b_referaccum_show($options)
     $result    = $xoopsDB->queryF('SELECT refer, SUM(hits) AS total FROM ' . $xoopsDB->prefix('stats_refer') . ' GROUP BY refer ORDER BY total DESC');
     $referhits = [];
     $cnt       = 0;
-    while (list($refer, $total) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($refer, $total) = $xoopsDB->fetchRow($result))) {
         if ((0 == $showselfrefer && !strcmp($refer, $_SERVER['HTTP_HOST'])) || '' == $refer) {
             continue;
         } else {

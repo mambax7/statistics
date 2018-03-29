@@ -35,9 +35,9 @@ function mainStats()
     $totalblocked = $count;
 
     $result = $xoopsDB->queryF('SELECT type, var, count FROM ' . $xoopsDB->prefix('counter') . ' ORDER BY type DESC');
-    while (list($type, $var, $count) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($type, $var, $count) = $xoopsDB->fetchRow($result))) {
         if ('browser' === $type) {
-            if ('Netscape' == $var) {
+            if ('Netscape' === $var) {
                 $netscape[] = $count;
                 $percent    = (0 == $total ? 0 : $count / $total);
                 $netscape[] = substr(100 * $percent, 0, 5);
@@ -150,7 +150,7 @@ function mainStats()
     $result   = $xoopsDB->queryF('SELECT year, hits FROM ' . $xoopsDB->prefix('stats_year'));
     $yearhits = [];
     $i        = 0;
-    while (list($year, $hits) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($year, $hits) = $xoopsDB->fetchRow($result))) {
         $yearhits[$i]['year'] = $year;
         $yearhits[$i]['hits'] = $hits;
         ++$i;
@@ -161,7 +161,7 @@ function mainStats()
     $result    = $xoopsDB->queryF('SELECT year, hits FROM ' . $xoopsDB->prefix('stats_blockedyear'));
     $byearhits = [];
     $i         = 0;
-    while (list($year, $hits) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($year, $hits) = $xoopsDB->fetchRow($result))) {
         $byearhits[$i]['year'] = $year;
         $byearhits[$i]['hits'] = $hits;
         ++$i;

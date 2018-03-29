@@ -17,23 +17,25 @@
  * @author         XOOPS Development Team
  */
 
+use XoopsModules\Statistics;
+/** @var Statistics\Helper $helper */
+$helper = Statistics\Helper::getInstance();
+
 include __DIR__ . '/../../mainfile.php';
-if (file_exists(__DIR__ . '/language/' . $xoopsConfig['language'] . '/blocks.php')) {
-    include __DIR__ . '/language/' . $xoopsConfig['language'] . '/blocks.php';
-} else {
-    include __DIR__ . '/language/english/blocks.php';
-}
+
+/** @var Statistics\Helper $helper */
+$helper = Statistics\Helper::getInstance();
+$helper->loadLanguage('blocks');
+
 $GLOBALS['xoopsOption']['template_main'] = 'referdetail.tpl';
 include XOOPS_ROOT_PATH . '/header.php';
 
 function referDetail()
 {
-    global $xoopsDB, $xoopsTpl, $configHandler;
+    global $xoopsDB, $xoopsTpl;
+    /** @var Statistics\Helper $helper */
+    $helper = Statistics\Helper::getInstance();
 
-    /** @var XoopsModuleHandler $moduleHandler */
-    $moduleHandler     = xoops_getHandler('module');
-    $xoopsModule       = $moduleHandler->getByDirname('statistics');
-    $xoopsModuleConfig = $configHandler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
 
     // get any current blacklist
     $result = $xoopsDB->queryF('SELECT * FROM ' . $xoopsDB->prefix('stats_refer_blacklist'));
@@ -56,7 +58,7 @@ function referDetail()
     $result    = $xoopsDB->queryF('SELECT refer, date, hits, referpath FROM ' . $xoopsDB->prefix('stats_refer') . ' ORDER BY hits DESC');
     $referhits = [];
     $cnt       = 0;
-    while (list($refer, $date, $hits, $referpath) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($refer, $date, $hits, $referpath) = $xoopsDB->fetchRow($result))) {
         if ((0 == $showselfrefer && !strcmp($refer, $_SERVER['HTTP_HOST'])) || '' == $refer) {
             continue;
         } else {
@@ -64,7 +66,7 @@ function referDetail()
             $blacklisted = false;
 
             // check configs if we are ignoring or allowing
-            if ('Allow' != $xoopsModuleConfig['refererspam']) {
+            if ('Allow' !== $helper->getConfig('refererspam')) {
                 if (count($referblacklist) > 0) {
                     $rbldelimited = '/' . implode('|', $referblacklist) . '/';
                     if (preg_match($rbldelimited, $refer)) {

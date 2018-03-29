@@ -21,7 +21,7 @@ require_once __DIR__ . '/../../../include/cp_header.php';
 $moduleDirName = basename(dirname(__DIR__));
 xoops_loadLanguage('main', $moduleDirName);
 
-require_once __DIR__ . '/../class/clsWhois.php';
+// require_once __DIR__ . '/../class/clsWhois.php';
 require_once __DIR__ . '/../include/statutils.php';
 
 function remoteAddr()
@@ -31,7 +31,7 @@ function remoteAddr()
     $result = $xoopsDB->queryF('SELECT ip, date, hits FROM ' . $xoopsDB->prefix('stats_ip') . ' ORDER BY date');
     $iplist = [];
     $i      = 0;
-    while (list($ip, $date, $hits) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($ip, $date, $hits) = $xoopsDB->fetchRow($result))) {
         $iplist[$i]['ip']   = $ip;
         $iplist[$i]['hits'] = $hits;
         preg_match('/([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})/', $date, $regs);
@@ -72,7 +72,7 @@ function uniqueRemoteAddr()
     $result = $xoopsDB->queryF('SELECT ip, SUM(hits) AS total FROM ' . $xoopsDB->prefix('stats_ip') . ' GROUP BY ip ORDER BY total DESC');
     $iplist = [];
     $i      = 0;
-    while (list($ip, $total) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($ip, $total) = $xoopsDB->fetchRow($result))) {
         $iplist[$i]['ip']   = $ip;
         $iplist[$i]['hits'] = $total;
         ++$i;
@@ -123,7 +123,7 @@ function referDB($orderby)
     $result    = $xoopsDB->queryF('select ip, refer, date, hits, referpath from ' . $xoopsDB->prefix('stats_refer') . " order by $orderby DESC");
     $referlist = [];
     $i         = 0;
-    while (list($ip, $refer, $date, $hits, $referpath) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($ip, $refer, $date, $hits, $referpath) = $xoopsDB->fetchRow($result))) {
         $referpathparts = explode('|', $referpath);
 
         $referlist[$i]['ip']        = $ip;
@@ -187,9 +187,9 @@ function referDB($orderby)
     echo "</td></tr></table></div>\n";
 
     // figure out which arrow image to display
-    $referimg = 'refer' == $orderby ? 'arrowup.gif' : 'arrowdn.gif';
-    $hitsimg  = 'hits' == $orderby ? 'arrowup.gif' : 'arrowdn.gif';
-    $dateimg  = 'date' == $orderby ? 'arrowup.gif' : 'arrowdn.gif';
+    $referimg = 'refer' === $orderby ? 'arrowup.gif' : 'arrowdn.gif';
+    $hitsimg  = 'hits' === $orderby ? 'arrowup.gif' : 'arrowdn.gif';
+    $dateimg  = 'date' === $orderby ? 'arrowup.gif' : 'arrowdn.gif';
 
     echo "<div style=\"font-size: xx-small;\"><table>\n";
     echo '<tr><th>'
@@ -325,7 +325,7 @@ function userScreen()
     $result  = $xoopsDB->queryF('SELECT id, hits FROM ' . $xoopsDB->prefix('stats_userscreen'));
     $usWidth = [];
     $i       = 0;
-    while (list($id, $hits) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($id, $hits) = $xoopsDB->fetchRow($result))) {
         switch ($id) {
             case '1':
                 $usWidth[$i]['id'] = '640';
@@ -362,7 +362,7 @@ function userScreen()
     $result  = $xoopsDB->queryF('SELECT id, hits FROM ' . $xoopsDB->prefix('stats_usercolor'));
     $usColor = [];
     $i       = 0;
-    while (list($id, $hits) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($id, $hits) = $xoopsDB->fetchRow($result))) {
         switch ($id) {
             case '1':
                 $usColor[$i]['id'] = '8';
@@ -538,7 +538,7 @@ switch ($op) {
         break;
 
     case 'purge_ips':
-        if (isset($_POST['confirm']) && 'purge_ips' == $_POST['confirm']) {
+        if (isset($_POST['confirm']) && 'purge_ips' === $_POST['confirm']) {
             purgeRemoteAddr();
         } else {
             $hidden = [
@@ -562,7 +562,7 @@ switch ($op) {
         break;
 
     case 'purge_refer':
-        if (isset($_POST['confirm']) && 'purge_refer' == $_POST['confirm']) {
+        if (isset($_POST['confirm']) && 'purge_refer' === $_POST['confirm']) {
             purgeReferDB();
         } else {
             $hidden = [
@@ -582,7 +582,7 @@ switch ($op) {
                 blr     => $_POST['bad_refer']
             ];
             xoops_confirm($hidden, 'main.php', STATS_REFER_BLSURE, STATS_REFERBLACKLIST);
-        } elseif (isset($_POST['confirm']) && 'blacklist_refer' == $_POST['confirm']) {
+        } elseif (isset($_POST['confirm']) && 'blacklist_refer' === $_POST['confirm']) {
             blacklistReferDB($_POST['blr']);
         } else {
             referDB();
@@ -591,7 +591,7 @@ switch ($op) {
         break;
 
     case 'purge_blacklist':
-        if (isset($_POST['confirm']) && 'purge_blacklist' == $_POST['confirm']) {
+        if (isset($_POST['confirm']) && 'purge_blacklist' === $_POST['confirm']) {
             purgeBlacklist();
         } else {
             $hidden = [
@@ -609,7 +609,7 @@ switch ($op) {
         break;
 
     case 'purge_userscreen':
-        if (isset($_POST['confirm']) && 'purge_userscreen' == $_POST['confirm']) {
+        if (isset($_POST['confirm']) && 'purge_userscreen' === $_POST['confirm']) {
             purgeUserScreen();
         } else {
             $hidden = [

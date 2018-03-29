@@ -22,7 +22,7 @@ function getMonthlyStats($year)
     list($hitsforyear) = $xoopsDB->fetchRow($resulttotal);
     $monthlist = [];
     $i         = 0;
-    while (list($month, $hits) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($month, $hits) = $xoopsDB->fetchRow($result))) {
         $monthlist[$i]['month'] = getMonth($month);
         $monthlist[$i]['hits']  = $hits;
         if ($month != $nowmonth) {
@@ -63,7 +63,7 @@ function getDailyStats($year, $month)
     $xoopsTpl->assign('lang_stat_dailyhead', STATS_DAILY);
     $dailylist = [];
     $i         = 0;
-    while (list($year, $month, $date, $hits) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($year, $month, $date, $hits) = $xoopsDB->fetchRow($result))) {
         $dailylist[$i]['year']  = $year;
         $dailylist[$i]['month'] = getMonth($month);
         $dailylist[$i]['date']  = $date;
@@ -148,7 +148,7 @@ function getBlockedMonthlyStats($year)
     list($hitsforyear) = $xoopsDB->fetchRow($resulttotal);
     $monthlist = [];
     $i         = 0;
-    while (list($month, $hits) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($month, $hits) = $xoopsDB->fetchRow($result))) {
         $monthlist[$i]['month'] = getMonth($month);
         $monthlist[$i]['hits']  = $hits;
         if ($month != $nowmonth) {
@@ -189,7 +189,7 @@ function getBlockedDailyStats($year, $month)
     $xoopsTpl->assign('lang_stat_dailyhead', STATS_DAILY);
     $dailylist = [];
     $i         = 0;
-    while (list($year, $month, $date, $hits) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($year, $month, $date, $hits) = $xoopsDB->fetchRow($result))) {
         $dailylist[$i]['year']  = $year;
         $dailylist[$i]['month'] = getMonth($month);
         $dailylist[$i]['date']  = $date;
@@ -365,11 +365,11 @@ function stats_adminmenu($header = '', $extra = '', $menu = '', $scount = 4)
                 /**
                  * If $class is the same for the end and start cells, invert $class
                  */
-                $class = ('odd' == $class && in_array($count, $oddnum)) ? 'even' : 'odd';
+                $class = ('odd' === $class && in_array($count, $oddnum)) ? 'even' : 'odd';
                 echo '</tr>';
                 $count = 0;
             } else {
-                $class = ('even' == $class) ? 'odd' : 'even';
+                $class = ('even' === $class) ? 'odd' : 'even';
             }
         }
         /**
@@ -379,7 +379,7 @@ function stats_adminmenu($header = '', $extra = '', $menu = '', $scount = 4)
             $counter = 0;
             while ($counter < $scount - $count) {
                 echo '<td class="' . $class . '">&nbsp;</td>';
-                $class = ('even' == $class) ? 'odd' : 'even';
+                $class = ('even' === $class) ? 'odd' : 'even';
                 ++$counter;
             }
         }

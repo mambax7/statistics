@@ -48,13 +48,13 @@ function b_refercounter_show($options)
     $result    = $xoopsDB->queryF('SELECT refer, date, hits, referpath FROM ' . $xoopsDB->prefix('stats_refer') . ' ORDER BY hits DESC');
     $referhits = [];
     $cnt       = 0;
-    while (list($refer, $date, $hits, $referpath) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($refer, $date, $hits, $referpath) = $xoopsDB->fetchRow($result))) {
         if ((0 == $showselfrefer && !strcmp($refer, $_SERVER['HTTP_HOST'])) || '' == $refer) {
             continue;
         } else {
             // see if we have a blacklist
             $blacklisted = false;
-            if ('Allow' != $xoopsStatConfig['refererspam']) {  // make sure they really want them ignored
+            if ('Allow' !== $xoopsStatConfig['refererspam']) {  // make sure they really want them ignored
                 if (count($referblacklist) > 0) {
                     $rbldelimited = '/' . implode('|', $referblacklist) . '/';
                     if (preg_match($rbldelimited, $refer)) {

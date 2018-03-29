@@ -73,7 +73,7 @@ $xoopsTpl->assign('lang_stat_yearhead', STATS_YEAR);
 $xoopsTpl->assign('lang_stat_pagesviewed', STATS_PAGESVIEWED);
 $yearlist = [];
 $i        = 0;
-while (list($year, $hits) = $xoopsDB->fetchRow($result)) {
+while (false !== (list($year, $hits) = $xoopsDB->fetchRow($result))) {
     $yearlist[$i]['year'] = $year;
     $yearlist[$i]['hits'] = $hits;
     if ($year != $nowyear) {
