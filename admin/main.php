@@ -456,7 +456,7 @@ function statsdnslookup($domainname)
 }
 
 if (!isset($_POST['op'])) {
-    $op = isset($_GET['op']) ? $_GET['op'] : '';
+    $op = \Xmf\Request::getString('op', '', 'GET');
 } else {
     $op = $_POST['op'];
 }
@@ -494,7 +494,7 @@ switch ($op) {
 
     case 'reverseip':
         if (!isset($_POST['iplookup'])) {
-            $iplookup = isset($_GET['iplookup']) ? $_GET['iplookup'] : '';
+            $iplookup = \Xmf\Request::getString('iplookup', '', 'GET');
         } else {
             $iplookup = $_POST['iplookup'];
         }
@@ -508,7 +508,7 @@ switch ($op) {
 
     case 'xwhois':
         if (!isset($_POST['dnslookup'])) {
-            $dnslookup = isset($_GET['dnslookup']) ? $_GET['dnslookup'] : '';
+            $dnslookup = \Xmf\Request::getString('dnslookup', '', 'GET');
         } else {
             $dnslookup = $_POST['dnslookup'];
         }

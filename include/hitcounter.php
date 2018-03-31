@@ -575,8 +575,8 @@ function getScreenDims()
 {
     global $xoopsDB;
 
-    $sw = isset($_COOKIE['sw']) ? $_COOKIE['sw'] : '';
-    $sc = isset($_COOKIE['sc']) ? $_COOKIE['sc'] : '';
+    $sw = \Xmf\Request::getString('sw', '', 'COOKIE');
+    $sc = \Xmf\Request::getString('sc', '', 'COOKIE');
 
     /**
      * @feature
