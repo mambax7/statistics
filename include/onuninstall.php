@@ -9,6 +9,8 @@
  */
 
 
+use XoopsModules\Statistics;
+
 /**
  * Prepares system prior to attempting to uninstall module
  * @param XoopsModule $module {@link XoopsModule}
@@ -16,7 +18,7 @@
  * @return bool true if ready to uninstall, false if not
  */
 
-function xoops_module_pre_uninstall_xxxx(\XoopsModule $module)
+function xoops_module_pre_uninstall_statistics(\XoopsModule $module)
 {
     // Do some synchronization
     return true;
@@ -29,21 +31,20 @@ function xoops_module_pre_uninstall_xxxx(\XoopsModule $module)
  *
  * @return bool true if uninstallation successful, false if not
  */
-function xoops_module_uninstall_xxxx(\XoopsModule $module)
+function xoops_module_uninstall_statistics(\XoopsModule $module)
 {
 //    return true;
 
     $moduleDirName = basename(dirname(__DIR__));
-    $xsitemapHelper      = \Xmf\Module\Helper::getHelper($moduleDirName);
+    $moduleDirNameUpper = strtoupper($moduleDirName);
+     $helper      =Statistics\Helper::getInstance();
 
-    /** @var XXXXXXUtility $utilityClass */
-    $utilityClass     = ucfirst($moduleDirName) . 'Utility';
-    if (!class_exists($utilityClass)) {
-        xoops_load('utility', $moduleDirName);
-    }
+    /** @var Statistics\Utility $utility */
+    $utility     = new Statistics\Utility();
+
 
     $success = true;
-    $xsitemapHelper->loadLanguage('admin');
+    $helper->loadLanguage('admin');
 
 
     //------------------------------------------------------------------
@@ -55,7 +56,7 @@ function xoops_module_uninstall_xxxx(\XoopsModule $module)
         $dirInfo = new \SplFileInfo($old_dir);
         if ($dirInfo->isDir()) {
             // The directory exists so delete it
-            if (false === $utilityClass::rrmdir($old_dir)) {
+            if (false === $utility::rrmdir($old_dir)) {
                 $module->setErrors(sprintf(constant('CO_' . $moduleDirNameUpper . '_ERROR_BAD_DEL_PATH'), $old_dir));
                 $success = false;
             }
@@ -70,7 +71,7 @@ function xoops_module_uninstall_xxxx(\XoopsModule $module)
     $xmlfile = $GLOBALS['xoops']->path('xsitemap.xml');
     if (is_file($xmlfile)) {
         if (false === ($delOk = unlink($xmlfile))) {
-            $module->setErrors(sprintf(_AM_XXXXX_ERROR_BAD_REMOVE, $xmlfile));
+            $module->setErrors(sprintf(_AM_statisticsX_ERROR_BAD_REMOVE, $xmlfile));
         }
     }
 //    return $success && $delOk; // use this if you're using this routine

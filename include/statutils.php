@@ -300,7 +300,7 @@ function getMonth($month)
  * @param array|string $menu   required : This is an array of links. U can
  * @param  int         $scount required : This will difine the amount of cells long the menu will have.
  *                             NB: using a value of 3 at the moment will break the menu where the cell colours will be off display.
- * @return THIS ONE WORKS CORRECTLY
+ * @return void ONE WORKS CORRECTLY
  */
 function stats_adminmenu($header = '', $extra = '', $menu = '', $scount = 4)
 {

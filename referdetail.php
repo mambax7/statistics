@@ -18,8 +18,6 @@
  */
 
 use XoopsModules\Statistics;
-/** @var Statistics\Helper $helper */
-$helper = Statistics\Helper::getInstance();
 
 include __DIR__ . '/../../mainfile.php';
 

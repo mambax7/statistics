@@ -291,14 +291,14 @@ if (empty($stats_secure_const['user_agent']) || '-' == $stats_secure_const['user
     prematureDeath($xoopsStatConfig['stats_customforbidmsg']);
 }
 // Check for UNION attack
-if (stristr($stats_secure_const['query_string'], '+union+')
-    or stristr($stats_secure_const['query_string'], '%20union%20')
-    or stristr($stats_secure_const['query_string'], '*/union/*')
-    or stristr($stats_secure_const['query_string'], ' union ')
-    or stristr($stats_secure_const['query_string_base64'], '+union+')
-    or stristr($stats_secure_const['query_string_base64'], '%20union%20')
-    or stristr($stats_secure_const['query_string_base64'], '*/union/*')
-    or stristr($stats_secure_const['query_string_base64'], ' union ')) {
+if (false !== stripos($stats_secure_const['query_string'], '+union+')
+    or false !== stripos($stats_secure_const['query_string'], '%20union%20')
+    or false !== stripos($stats_secure_const['query_string'], '*/union/*')
+    or false !== stripos($stats_secure_const['query_string'], ' union ')
+    or false !== stripos($stats_secure_const['query_string_base64'], '+union+')
+    or false !== stripos($stats_secure_const['query_string_base64'], '%20union%20')
+    or false !== stripos($stats_secure_const['query_string_base64'], '*/union/*')
+    or false !== stripos($stats_secure_const['query_string_base64'], ' union ')) {
     prematureDeath($xoopsStatConfig['stats_customforbidmsg']);
 }
 
@@ -1065,14 +1065,14 @@ function get_ip()
             $stats_secure_const['remote_addr'] = $remote_addrs[1];
         }
     }
-    if (isset($stats_secure_const['client_ip']) && !stristr($stats_secure_const['client_ip'], 'none')
-        && !stristr($stats_secure_const['client_ip'], 'unknown') /* && !is_reserved($stats_secure_const['client_ip']) */) {
+    if (isset($stats_secure_const['client_ip']) && false === stripos($stats_secure_const['client_ip'], 'none')
+        && false === stripos($stats_secure_const['client_ip'], 'unknown') /* && !is_reserved($stats_secure_const['client_ip']) */) {
         return $stats_secure_const['client_ip'];
-    } elseif (isset($stats_secure_const['forward_ip']) && !stristr($stats_secure_const['forward_ip'], 'none')
-              && !stristr($stats_secure_const['forward_ip'], 'unknown') /* && !is_reserved($stats_secure_const['forward_ip']) */) {
+    } elseif (isset($stats_secure_const['forward_ip']) && false === stripos($stats_secure_const['forward_ip'], 'none')
+              && false === stripos($stats_secure_const['forward_ip'], 'unknown') /* && !is_reserved($stats_secure_const['forward_ip']) */) {
         return $stats_secure_const['forward_ip'];
-    } elseif (isset($stats_secure_const['remote_addr']) && !stristr($stats_secure_const['remote_addr'], 'none')
-              && !stristr($stats_secure_const['remote_addr'], 'unknown') /* && !is_reserved($stats_secure_const['remote_addr']) */) {
+    } elseif (isset($stats_secure_const['remote_addr']) && false === stripos($stats_secure_const['remote_addr'], 'none')
+              && false === stripos($stats_secure_const['remote_addr'], 'unknown') /* && !is_reserved($stats_secure_const['remote_addr']) */) {
         return $stats_secure_const['remote_addr'];
     } else {
         return 'none';
