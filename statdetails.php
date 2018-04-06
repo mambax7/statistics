@@ -3,11 +3,7 @@
 include __DIR__ . '/../../mainfile.php';
 include __DIR__ . '/include/statutils.php';
 
-if (!isset($_POST['op'])) {
-    $op = isset($_GET['op']) ? $_GET['op'] : 'main';
-} else {
-    $op = $_POST['op'];
-}
+$op    = \Xmf\Request::getCmd('op', 'main');
 if (isset($_GET['year'])) {
     $year = $_GET['year'];
 }
