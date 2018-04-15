@@ -17,7 +17,7 @@
  * @author         XOOPS Development Team
  */
 
-include __DIR__ . '/../../mainfile.php';
+include  dirname(dirname(__DIR__)) . '/mainfile.php';
 $GLOBALS['xoopsOption']['template_main'] = 'statistics.tpl';
 include XOOPS_ROOT_PATH . '/header.php';
 

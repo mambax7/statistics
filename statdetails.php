@@ -1,6 +1,6 @@
 <?php
 
-include __DIR__ . '/../../mainfile.php';
+include  dirname(dirname(__DIR__)) . '/mainfile.php';
 include __DIR__ . '/include/statutils.php';
 
 $op    = \Xmf\Request::getCmd('op', 'main');
