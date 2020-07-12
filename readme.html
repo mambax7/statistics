@@ -1,0 +1,322 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>XOOP-Stats V0.60 for XOOPS</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body>
+<h4>XOOP-Stats v0.60 for XOOPS 2</h4>
+<a href="xoops.ibdeeming.com" target="_new">XOOPS@IBDeeming!</a> announces a new release of XOOP-Stats v0.60 for XOOPS
+2.2.x (yes, it will run under 2.0.13.2)  XOOP-Stats continues to evolve and become a better, more enhanced offerring for XOOPS 2 administrators.
+There are a number of enhancements to make this an integral part of your XOOPS site!<br><br>
+This version has the following features:
+<ul>
+  <li>Security Checkers
+    <ul>
+	  <li>DoS Attack</li>
+	  <li>Method Checker</li>
+	  <li>IP Checker</li>
+	  <li>Modified the referer blacklist to actually block them from your site.  No need to have unwanted traffic, and they aren't
+	  really traffic for you anyway.</li>
+	  <li>Modified the menu system so that ananymous can't view any referers to your site.  The exception is blocks.  You
+	  still have the freedom to do anything you want there!</li>
+    </ul>
+  </li>
+  <li>New Languages!
+    <ul>
+      <li>Spanish - josespi (http://www.planpasperu.org.pe)</li>
+	  <li>Bulgarian Unicode - ep98</li>
+	</ul>
+  </li>
+  <li>Added the following bots
+    <ul>
+      <li>Added bot wwwster to the list (uni-muenchen.de)</li>
+      <li>Added ZyBorg to the list (not a good acting bot - ignores robots.txt)</li>
+      <li>Added sherlock and accomplice holmes - both bad, you should block them!</li>
+      <li>Added ConveraCrawler - jury is out, but can drain your bandwidth!</li>
+	  <li>Added "seer" - pronounced "see-er" - Alternate search bots</li>
+	  <li>Added "claymont" - alternate search bot</li>
+	  </ul>
+  </li>
+  <li>Added tracking of IP to Referer - ADMIN Function</li>
+  <li>Fixed a small problem where query and fragments were not supported by Windows flavor servers - (BLAH Windows!)</li>
+  <li>Fixed a small problem when displaying PHP Credits in the ADMIN section</li>
+  <li>Fixed problem when showing hit details for following month in a given year</li>
+  <li>fixed a division by zero ;-)(0) problem</li>
+  <li>Fixed a problem initializing a variable in statutils.php</li>
+  <li>Added counters for blocked bots and referers</li>
+  <li>Added details page for blocked hits - Year, Month, Day, and Hour</li>
+  <li>Added auto-purge option for referers list (in case it gets too big, and the webmaster isn't paying attention!) ;-)</li>
+  <li>Added Preferences for REFERER SPAM -
+    <ul>
+      <li>Forbidden - blocked from site</li>
+      <li>Reflect - Redirected to the referer address - kind of evil ;->
+	    <ul>
+		  <li>Redirection works by stripping 'domain.tld' from the fully qualifed name 'http://somewhere.domain.tld'
+		  and redirecting to just 'http://domain.tld' where domain is the main domain name and tld is the top level domain
+		  such as .com, .net, .org, or whatever it may be.</li></ul></li>
+	  <li>Ignore - counts them, but doesn't show them</li>
+	  <li>Allow - Does nothing</li>
+    </ul>
+  </li>
+  <li>Added Preferences for Filtering of IP addresses from hits counter - webmaster feature.  I.e. - If a webmaster
+  is maintaining the site a lot, and doesn't want to be counted.
+    <ul>
+      <li>Switch to turn it ON or off - defualt is OFF</li>
+      <li>IP address entry of IP's you don't want to count.</li>
+    </ul>
+    This option is <b>NOT</b> intended to block the IP, just not count the visit from
+    the IP. It is for Webmasters that are monitoring their sites, and don't want to
+    count their visits, etc.
+  </li>
+  <li>Added Preferences to allow the entry of bot names to track and count.<li>
+  <li>Added Preferences to enter and block identified bots from the site
+    <ul>
+      <li>Swith to turn it ON or OFF - default is OFF</li>
+      <li>Entry for the bots/harvesters/copyright checkers, etc. that you want to block</li>
+    </ul>
+</ul>
+
+<h4>XOOP-Stats v0.45</h4>
+This version has the following features:
+<ul>
+<li>Italian by Juri Montico - no site , yet!</li>
+<li>Fixed issues with IIS and $_SERVER calls</li>
+<li>Added reverse lookup information for IP addresses (ADMIN functions)</li>
+<li>Added xWhois functions for Domain Names (ADMIN functions)</li>
+<li>Added query string and fragment string on refer table (ADMIN functions)</li>
+<li>Added stats for <ul><li>mydownloads</li>
+<li>WF-Downloads</li><li>AMS</li></ul></li>
+<li>A big thank you to user rnijdam for the Dutch language files!</li>
+<li>Added SQL ordering to the referers table (ADMIN functions)</li>
+<li>Added sorting for IP (ADMIN functions)</li>
+<li>Full screen width and color depth is tracked (ADMIN functions)</li>
+<li>Added intelligence for<ul><li>DeepNet Browser (seeing a lot more of these)</li>
+<li>Avant Browser - better than IE alternative</li><li>DigExt Offline crawler - these can hammer a site!  Watch out!</li>
+<li>Waypath - blog seeker</li><li>SharpReader - RSS Feed collector</li>
+<li>Turnitinbot - although always collected - be aware that this is out
+        there. It's a plagerism serarcher that reports back. Although their site
+        http://www.turnitin.com/robot/crawlerinfo.html states it's nice and pays
+        attention to robots.txt, my logs beg to differ! This used to be Slysearch.</li>
+    </ul> </li>
+<li>MediaPartners - Google - No longer identifies as a bot, it's for AdSense</li>
+</ul>
+
+
+<h4>XOOP-Stats V0.3 for XOOPS 2</h4>
+<h4>Version 0.3</h4>
+This version has the following features:
+<ul>
+    <li>Portuguese/Brazil by gibaphp (http://www.xoopstotal.com.br)</li>
+    <li>Fixes to work with TinyContent v1.5</li>
+    <li>Stats showing number of online users</li>
+    <li>Stats showing number of TinyContent articles</li>
+    <li>New Options in the referers block to display:
+        <ul>
+            <li>Domain and path as one link - click and go to the exact referring page.</li>
+            <li>Domain only - track the refers from the domain regardless of path.  The link goes to the domain only.</li>
+            <li>Domain and path as seperate links - have links to the site, and the links to the full path from the referer</li>
+        </ul>
+    </li>
+    <li>Admin refers table now has the DNS link and the full path link seperate.  NOTE: The path is not
+        tracked if the block option has <b>Domain Only</b> selected.
+    </li>
+    <li>All fucntionality of the hitcounter.php have been encapsulated.  There are no global conflicts!</li>
+	<li>REFERER Blacklist - this enables you to prevent certain domains from displaying to your users.  All domains are
+	tracked.  If you want to BLACKLIST from your site, be sure to use the built-in XOOPS IP Blacklist in your preferences!</li>
+</ul>
+
+<h4>Version 0.2</h4>
+<ul>
+
+  <li>German translation and XOOP graphics by baerchn (http://xoops-city.de)</li>
+    <li>Fixes to work with xoopsgallery</li>
+    <li>Additional stats to show the number of albums and images in xoopsgallery</li>
+</ul>
+
+<h4>Version 0.1</h4>
+<ul>
+<li>ADMIN Functions
+  <ul>
+    <li>Full featured PHPInfo for admins.  How many times have you needed to install a mod or hack that
+	required certian PHP settings, but you struggled finding them?  Well, we have it broken out for you.
+	You can get the full listing, general listing, credits, configuration, modules, environment, variables, and license.</li>
+	<li>Visitors by IP - We track the nubmer of times a unique IP visits your site, the date and time stamp as well.  The
+	table presented shows the number of hits for a given IP during an hourly timefram.  You also have the ability
+	to purge this table at anytime.</li>
+	<li>Refers - This gives you ALL referers to your site.  Again, based on date and hour timestamp.  You will see the
+	total number of hits for a given referer.  The table displays the HOST name, but the link takes you to the full
+	referer path!</li>
+	<li>Templates - Everything has templates!  So, modify to your hearts content!  The entire package is fully
+	integrated with the power of XOOPS!
+	</li>
+  </ul>
+</li>
+<li>USER Functions - Here's where the real <i>sweet</i> fetures are located!
+  <ul>
+    <li>BLOCKS - First off, there are 2 blocks in this release.
+	  <ul>
+	    <li>Site Hits - This block shows the total hits for the site.  Your standard hits block, but with a twist.
+		You have admin options to show just total hits, or total hits, and historically the totals hits for previous
+		years!  This one looks good as a side or center.
+		</li>
+		<li>Referers Hits - This block allows you to show the top referers.  Admin options allow you to specify
+		how many to display, and whether you want to include refers from "self."  In other words, see refers from your own site to
+		your own site!  Blacklisting option - it's tracked, but not displayed.  This one looks good as a center.  Too much detail for a side!
+		</li>
+	  </ul>
+	</li>
+	<li>Site Statistics
+	  <ul>
+	    <li>Basic Statistics - This shows you the number of unique hits from browsers, and there are a bunch supported!  We track
+		BOT/SPIDER visits.  This logic is updated regularly as we track the new ones that are born almost daily!  It tracks
+		the number of unique O/S's.  We've also tied it to XOOPS standard modules to show links, news, users, content, etc.  If the
+		mod isn't active, the data doesn't display!  Finally, we show the visitor's browser to them.  We know what you use!
+		</li>
+		<li>Hit Details - This shows the hits for the year, months in the year, days in the month, and hourly hits.  Each
+		entry in the tables have a link to display specifics for a particular day.  Do you want to know the specifics for 3 days
+		ago?  You can click that day, and get the details!
+		</li>
+	  </ul>
+	</li>
+  </ul>
+</li>
+</ul>
+
+The is more planned for the future, and we are always open to suggestions or needs!
+
+<h3>Make a BACKUP if UNSURE prior to Installing or Upgrading!!!</h3>
+<h4>FRESH INSTALLATION</h4>
+<i>NOTE: If you are upgrading, skip this step!</i><br><br>
+The installation of this module is standard to any XOOPS site.  There is one exception to the installation
+noted below to have Statistics running on your site.
+<ol>
+    <li>Log in to your XOOPS site as ADMIN</li>
+    <li>Go to your XOOPS administration cPanel</li>
+    <li>Copy the Statistics package to the modules directory</li>
+    <li>Install Statistics module
+        <ol>
+           <li>select the System Admin->Modules link.</li>
+           <li>Locate the Statistics module in the lower list of the screen</li>
+           <li>Select the icon to install the module<li>
+           <li>Confirm your installation</li>
+           <li>You should see a screen with the information showing the module has been installed.  You can return to
+               Module administration.</li>
+		   <li>If you are using custom templates for your site, make sure you generate the new ones with a fresh
+		       install of XOOPStats</li>
+        </ol>
+    </li>
+    <li>There is a minor requirement to make this thing go.
+        
+    <ol>
+      <li> Add the following to your header.php (XOOPS 2.0.x) or bottom of common.php (XOOPS 2.2.x) file located in the root 
+	  of XOOPS<br>
+        <br>
+        <samp>// for stats by <A href="xoops.ibdeeming.com">XOOPS@IBDeeming!</a><br>
+        include_once XOOPS_ROOT_PATH.'/modules/statistics/include/hitcounter.php';</samp> 
+        <br>
+      </li>
+      <li>for xoops 2.0.x<br>
+        at the top of the file <b>header.php</b> under the line<br>
+        <samp>include_once XOOPS_ROOT_PATH.'/class/xoopsblock.php';</samp></li>
+	  <li>for xoops 2.2.x<br>
+	    at the bottom of the file <b>include/common.php</b> under the line<br>
+	    <samp>$xoopsLogger->context = "module";</samp><br>
+		but before the last <samp>' } '</samp> (curly brace)</samp></li>	
+    </ol>
+    </li>
+    <li>You should now be collecting data</li>
+    <li>There are two blocks included with this module, activate as you would any block on your XOOPS site.
+        <ol>
+            <li>Hitcounter - shows a graphical representation of the hits to your site.  Check the options as listed above.<li>
+            <li>Referers - shows the referers that have come to your site.
+        </ol>
+    </li>
+</ol>
+
+<h4>UPGRADE</h4>
+There has been many table changes to allow the new functionality of tracking referers, and a new table for holding
+your blacklist, and counting blocked hits.  I have supplied the proper raw sql files in the <b>statistics/sql</b> folder.  I have also
+created an upgrade script to facilitate the upgrade of tables if you are not comfortable with sql files.
+Please follow these recommended steps for a successful upgrade!
+<ol>
+    <li>Log in to your XOOPS site as ADMIN</li>
+    <li>Go to your XOOPS administration cPanel</li>
+    <li>Deactivate the Statistics module
+        <ol>
+            <li>Uncheck the <b>Active</b> box for Statistics</li>
+            <li>Select Submit</li>
+        </ol>
+    </li>
+    <li>Copy the Statistics package to the modules directory</li>
+	<li>Go to the Admin/Modules panel and Update teh XOOPStats module</li>
+	<li>Run modules/statistics/admin/upgrade.php<ul><li>If SUCCESS, upgrade complete</li>
+	<li>If WARNINGS - you may be fine.</li>
+	<li>If ERRORS - upgrade failed.</li></ul></li>
+	<li>If you are running custom templates, delete them for Site Statistics, re-generate.</li>
+	<li>Go to the Admin cPanel of your XOOPS site.</li>
+    <li>Update the Statistics module</li>
+        <ol>
+          <li>select the System Admin->Modules link.</li>
+          <li>select the upgrade option for Statistics</li>
+        </ol>
+    </li>
+    <li>Activate the statistics module
+        <ol>
+            <li>Check the <b>Active</b> box for Statistics</li>
+            <li>Select Submit</li>
+        </ol>
+    </li>
+    <li>Don't foget to check the settings for the <b>Referers block</b>!</li>
+</ol>
+
+<h4>ALL INSTALLATIONS - Activating User Screen Width and Color Depth</h4>
+<p>The capturing of screen width and color depth is not required for the active collection of stats data
+for your site.  If you would like to capture this addtional data, you will need to activate the javascript
+required for reading this data from the users screen.  This is very simple!
+<ol><li>Use the following script code:
+<div style="background: #FFFFFF; border: 1px inset #000080; font-family: "Courier New",Courier,monospace; padding: 0px 6px 6px 6px; color: #000000; height: auto; max-height: 250px; margin-bottom: 10px; overflow: auto;"><pre>
+&lt;script language="javascript"&gt;
+&lt;!--
+writeCookie();
+
+function writeCookie()
+{
+ var today = new Date();
+ var the_date = new Date("December 25, 2012");
+ var the_cookie_date = the_date.toGMTString();
+ var the_cookie = "sw=" + screen.width +
+      "; expires=" + the_cookie_date +
+      "; path=/" +
+      "; domain=";
+
+ document.cookie=the_cookie
+
+ var today = new Date();
+ var the_date = new Date("December 25, 2012");
+ var the_cookie_date = the_date.toGMTString();
+ var the_cookie = "sc=" + screen.colorDepth +
+      "; expires=" + the_cookie_date +
+      "; path=/" +
+      "; domain=";
+
+ document.cookie=the_cookie
+}
+//--&gt;
+&lt;/script&gt;
+</pre></div>
+Make sure it is contained within the valid script tags for Javascript!!!
+</li>
+<li>Log in as admin to your site</li><li>Select Sytem Admin->Preferences</li>
+<li>Select Edit Meta Tags and Footer</li>
+<li>Add the Javascript provided anywhere within the FOOTER text entry field (this will activate for all themes
+that are properly supporting the xoops_footer Smarty tag.  They all should be!</li>
+<li>Save your settings!</li><li>This counts for visitors in your site, not admin pages.</li></ol>
+</p>
+<h4>SUPPORT</h4>
+Go to <a href="xoops.ibdeeming.com" target="_new">XOOPS@IBDeeming!</a> and check the forums.  You can also contact us
+at the site for more support!
+<br><br>
+<h3>Thanks for using this mod!</h3>
+</body>
+</html>
