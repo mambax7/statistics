@@ -120,7 +120,7 @@
                     </td>
                 </tr>
 
-                <{if $news_active == true }>
+                <{if $news_active|default:false === true }>
                     <tr>
                         <td>
                             <img src="assets/images/news.gif" border='0' alt="<{$lang_stats_storiespublished}>">
@@ -159,7 +159,7 @@
                     </tr>
                 <{/if}>
 
-                <{if $amsnews_active == true }>
+                <{if $amsnews_active|default:false === true }>
                     <tr>
                         <td>
                             <img src="assets/images/news.gif" border='0' alt="<{$lang_stats_amsstoriespublished}>">
@@ -189,7 +189,7 @@
                     </tr>
                 <{/if}>
 
-                <{if $sections_active == true}>
+                <{if $sections_active|default:false === true}>
                     <tr>
                         <td>
                             <img src="assets/images/sections.gif" border="0" alt="<{$lang_stat_section}>">
@@ -210,7 +210,7 @@
                     </tr>
                 <{/if}>
 
-                <{if $links_active == true}>
+                <{if $links_active|default:false === true}>
                     <tr>
                         <td>
                             <img src="assets/images/link.png" border="0" alt="<{$lang_stats_links}>">
@@ -231,7 +231,7 @@
                     </tr>
                 <{/if}>
 
-                <{if $xoopsgallery_active == true}>
+                <{if $xoopsgallery_active|default:false === true}>
                     <tr>
                         <td>
                             <img src="assets/images/xoopsgallery.png" border="0" alt="<{$lang_stats_gimages}>">
@@ -252,7 +252,7 @@
                     </tr>
                 <{/if}>
 
-                <{if $tinycontent_active == true}>
+                <{if $tinycontent_active|default:false === true}>
                     <tr>
                         <td>
                             <img src="assets/images/content.gif" border="0" alt="<{$lang_stats_tinycontent}>">
@@ -273,7 +273,7 @@
                     </tr>
                 <{/if}>
 
-                <{if $dl_active == true}>
+                <{if $dl_active|default:false === true}>
                     <tr>
                         <td>
                             <img src="assets/images/dlcat.gif" border="0" alt="<{$lang_stats_dlcat}>">
@@ -294,7 +294,7 @@
                     </tr>
                 <{/if}>
 
-                <{if $wfdl_active == true}>
+                <{if $wfdl_active|default:false === true}>
                     <tr>
                         <td>
                             <img src="assets/images/dlcat.gif" border="0" alt="<{$lang_stats_wfdlcat}>">

@@ -1,6 +1,7 @@
 <?php
 
 /************************************************************************/
+
 /* XOOPS: Web Portal System                                             */
 /* ========================                                             */
 /*                                                                      */
@@ -12,6 +13,7 @@
 /* This program is free software. You can redistribute it and/or modify */
 /* it under the terms of the GNU General Public License as published by */
 /* the Free Software Foundation; either version 2 of the License.       */
+
 /************************************************************************/
 
 use XoopsModules\Statistics;
@@ -22,7 +24,7 @@ $helper->loadLanguage('main');
 // Load required configs
 global $stats_secure_const, $configHandler, $xoopsStatConfig;
 
-/** @var XoopsModuleHandler $moduleHandler */
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler   = xoops_getHandler('module');
 $xoopsStatModule = $moduleHandler->getByDirname('statistics');
 $xoopsStatConfig = $configHandler->getConfigsByCat(0, $xoopsStatModule->getVar('mid'));
@@ -39,9 +41,9 @@ $stats_secure_const['http_host']           = get_http_host();
 $stats_secure_const['query_string']        = st_clean_string(get_query_string());
 $stats_secure_const['get_string']          = st_clean_string(get_get_string());
 $stats_secure_const['post_string']         = st_clean_string(get_post_string());
-$stats_secure_const['query_string_base64'] = st_clean_string(base64_decode($stats_secure_const['query_string']));
-$stats_secure_const['get_string_base64']   = st_clean_string(base64_decode($stats_secure_const['get_string']));
-$stats_secure_const['post_string_base64']  = st_clean_string(base64_decode($stats_secure_const['post_string']));
+$stats_secure_const['query_string_base64'] = st_clean_string(base64_decode($stats_secure_const['query_string'], true));
+$stats_secure_const['get_string_base64']   = st_clean_string(base64_decode($stats_secure_const['get_string'], true));
+$stats_secure_const['post_string_base64']  = st_clean_string(base64_decode($stats_secure_const['post_string'], true));
 $stats_secure_const['user_agent']          = get_user_agent();
 $stats_secure_const['referer']             = get_referer();
 $stats_secure_const['script_name']         = get_script_name();
@@ -143,7 +145,7 @@ function prematureDeath($str)
 
     session_destroy();
 
-    die($str);
+    exit($str);
 }
 
 // check no count IP - this is when webmaster doesn't want an IP to count in stats
@@ -202,9 +204,9 @@ function checkBlockBotslist()
 if (true === checkBlockBotslist()) {
     global $xoopsStatConfig;
 
-    setBlockedCounter('bots');/* Save the obtained values */
+    setBlockedCounter('bots'); /* Save the obtained values */
 
-    die($xoopsStatConfig['stats_customforbidmsg'] . '<br>********<br>' . $stats_secure_const['user_agent']);
+    exit($xoopsStatConfig['stats_customforbidmsg'] . '<br>********<br>' . $stats_secure_const['user_agent']);
 }
 
 // check blacklisted referers - if a match, die!
@@ -216,11 +218,10 @@ function checkBlacklist()
 
     // get any current blacklist
     $result = $xoopsDB->queryF('SELECT * FROM ' . $xoopsDB->prefix('stats_refer_blacklist'));
-    list($id, $referer) = $xoopsDB->fetchRow($result);
+    [$id, $referer] = $xoopsDB->fetchRow($result);
     $referblacklist = unserialize(stripslashes($referer));
 
     if (is_array($referblacklist)) { // make sure we have an array
-
         // attempt to strip anthing but the URL i.e. http://www.abc.com instead of http://www.abc.com/dirname
         // this is not the same as $stats_secure_const['http_host'] above.
         $dnsarray = parse_url($stats_secure_const['referer']);
@@ -252,7 +253,6 @@ if (true === checkBlacklist()) {
             setBlockedCounter('referers');
             prematureDeath($xoopsStatConfig['stats_customforbidmsg'] . '<br>********<br>' . $stats_secure_const['referer']);
             break;
-
         case 'Reflect':
             /* Save the obtained values */
             setBlockedCounter('referers');
@@ -268,7 +268,6 @@ if (true === checkBlacklist()) {
             header('Location: ' . $prefix . $domain_tld . '/');
             prematureDeath('Location: ' . $stats_secure_const['referer']);
             break;
-
         default:
             break;
     }
@@ -280,8 +279,8 @@ if ('none' === $stats_secure_const['remote_ip']) {
 }
 
 // Invalid request method check
-if ('get' !== strtolower($stats_secure_const['request_method']) && 'head' !== strtolower($stats_secure_const['request_method']) && 'post' !== strtolower($stats_secure_const['request_method'])
-    && 'put' !== strtolower($stats_secure_const['request_method'])) {
+if ('get' !== mb_strtolower($stats_secure_const['request_method']) && 'head' !== mb_strtolower($stats_secure_const['request_method']) && 'post' !== mb_strtolower($stats_secure_const['request_method'])
+    && 'put' !== mb_strtolower($stats_secure_const['request_method'])) {
     prematureDeath(STATS_INVALIDMETHOD);
 }
 
@@ -291,14 +290,14 @@ if (empty($stats_secure_const['user_agent']) || '-' == $stats_secure_const['user
     prematureDeath($xoopsStatConfig['stats_customforbidmsg']);
 }
 // Check for UNION attack
-if (false !== stripos($stats_secure_const['query_string'], '+union+')
-    or false !== stripos($stats_secure_const['query_string'], '%20union%20')
-    or false !== stripos($stats_secure_const['query_string'], '*/union/*')
-    or false !== stripos($stats_secure_const['query_string'], ' union ')
-    or false !== stripos($stats_secure_const['query_string_base64'], '+union+')
-    or false !== stripos($stats_secure_const['query_string_base64'], '%20union%20')
-    or false !== stripos($stats_secure_const['query_string_base64'], '*/union/*')
-    or false !== stripos($stats_secure_const['query_string_base64'], ' union ')) {
+if (false !== mb_stripos($stats_secure_const['query_string'], '+union+')
+    or false !== mb_stripos($stats_secure_const['query_string'], '%20union%20')
+    or false !== mb_stripos($stats_secure_const['query_string'], '*/union/*')
+    or false !== mb_stripos($stats_secure_const['query_string'], ' union ')
+    or false !== mb_stripos($stats_secure_const['query_string_base64'], '+union+')
+    or false !== mb_stripos($stats_secure_const['query_string_base64'], '%20union%20')
+    or false !== mb_stripos($stats_secure_const['query_string_base64'], '*/union/*')
+    or false !== mb_stripos($stats_secure_const['query_string_base64'], ' union ')) {
     prematureDeath($xoopsStatConfig['stats_customforbidmsg']);
 }
 
@@ -332,19 +331,15 @@ function autoPurgeRefererList()
     switch ($xoopsStatConfig['autopurgereferer']) {
         case 'never':
             return;
-
         case 'fiveday':
             $timelimit = 120;
             break;
-
         case 'oneday':
             $timelimit = 24;
             break;
-
         case 'sixhour':
             $timelimit = 6;
             break;
-
         case 'twelvehour':
             $timelimit = 12;
             break;
@@ -588,27 +583,21 @@ function getScreenDims()
             case '640':
                 $sw_id = 1;
                 break;
-
             case '800':
                 $sw_id = 2;
                 break;
-
             case '1024':
                 $sw_id = 3;
                 break;
-
             case '1152':
                 $sw_id = 4;
                 break;
-
             case '1280':
                 $sw_id = 5;
                 break;
-
             case '1600':
                 $sw_id = 6;
                 break;
-
             default:
                 $sw_id = 7;
                 break;
@@ -627,19 +616,15 @@ function getScreenDims()
             case '8':
                 $sc_id = 1;
                 break;
-
             case '16':
                 $sc_id = 2;
                 break;
-
             case '24':
                 $sc_id = 3;
                 break;
-
             case '32':
                 $sc_id = 4;
                 break;
-
             default:
                 $sc_id = 5;
                 break;
@@ -660,9 +645,9 @@ function stats_getservervar($var)
         return $HTTP_SERVER_VARS[$var];
     } elseif (getenv($var)) {
         return getenv($var);
-    } else {
-        return 'none';
     }
+
+    return 'none';
 }
 
 function get_remote_port()
@@ -720,7 +705,7 @@ function st_clean_string($cleanstring)
         '%1C',
         '%1D',
         '%1E',
-        '%1F'
+        '%1F',
     ];
     $st_to1      = [
         '%',
@@ -755,7 +740,7 @@ function st_clean_string($cleanstring)
         '',
         '',
         '',
-        ''
+        '',
     ];
     $st_fr2      = [
         '%20',
@@ -789,7 +774,7 @@ function st_clean_string($cleanstring)
         '%3C',
         '%3D',
         '%3E',
-        '%3F'
+        '%3F',
     ];
     $st_to2      = [
         ' ',
@@ -823,7 +808,7 @@ function st_clean_string($cleanstring)
         '<',
         '=',
         '>',
-        '?'
+        '?',
     ];
     $st_fr3      = [
         '%40',
@@ -857,7 +842,7 @@ function st_clean_string($cleanstring)
         '%5C',
         '%5D',
         '%5E',
-        '%5F'
+        '%5F',
     ];
     $st_to3      = [
         '@',
@@ -888,10 +873,10 @@ function st_clean_string($cleanstring)
         'Y',
         'Z',
         '[',
-        "\\",
+        '\\',
         ']',
         '^',
-        '_'
+        '_',
     ];
     $st_fr4      = [
         '%60',
@@ -925,7 +910,7 @@ function st_clean_string($cleanstring)
         '%7C',
         '%7D',
         '%7E',
-        '%7F'
+        '%7F',
     ];
     $st_to4      = [
         '`',
@@ -959,7 +944,7 @@ function st_clean_string($cleanstring)
         '|',
         '}',
         '`',
-        ''
+        '',
     ];
     $cleanstring = str_replace($st_fr1, $st_to1, $cleanstring);
     $cleanstring = str_replace($st_fr2, $st_to2, $cleanstring);
@@ -971,15 +956,15 @@ function st_clean_string($cleanstring)
 
 function get_query_string()
 {
-    if (isset($_SERVER['QUERY_STRING'])) {
+    if (\Xmf\Request::hasVar('QUERY_STRING', 'SERVER')) {
         return str_replace('%09', '%20', $_SERVER['QUERY_STRING']);
     } elseif (isset($HTTP_SERVER_VARS['QUERY_STRING'])) {
         return str_replace('%09', '%20', $HTTP_SERVER_VARS['QUERY_STRING']);
     } elseif (getenv('QUERY_STRING')) {
         return str_replace('%09', '%20', getenv('QUERY_STRING'));
-    } else {
-        return 'none';
     }
+
+    return 'none';
 }
 
 function get_get_string()
@@ -1041,7 +1026,7 @@ function get_referer()
 function get_ip()
 {
     global $stats_secure_const;
-    if (strpos($stats_secure_const['client_ip'], ', ') && isset($stats_secure_const['client_ip'])) {
+    if (mb_strpos($stats_secure_const['client_ip'], ', ') && isset($stats_secure_const['client_ip'])) {
         $client_ips = explode(', ', $stats_secure_const['client_ip']);
         if ('unknown' !== $client_ips[0] && 'none' !== $client_ips[0] && !empty($client_ips[0]) && !is_reserved($client_ips[0])) {
             $stats_secure_const['client_ip'] = $client_ips[0];
@@ -1049,7 +1034,7 @@ function get_ip()
             $stats_secure_const['client_ip'] = $client_ips[1];
         }
     }
-    if (strpos($stats_secure_const['forward_ip'], ', ') && isset($stats_secure_const['forward_ip'])) {
+    if (mb_strpos($stats_secure_const['forward_ip'], ', ') && isset($stats_secure_const['forward_ip'])) {
         $x_forwardeds = explode(', ', $stats_secure_const['forward_ip']);
         if ('unknown' !== $x_forwardeds[0] && 'none' !== $x_forwardeds[0] && !empty($x_forwardeds[0]) && !is_reserved($x_forwardeds[0])) {
             $stats_secure_const['forward_ip'] = $x_forwardeds[0];
@@ -1057,7 +1042,7 @@ function get_ip()
             $stats_secure_const['forward_ip'] = $x_forwardeds[1];
         }
     }
-    if (strpos($stats_secure_const['remote_addr'], ', ') && isset($stats_secure_const['remote_addr'])) {
+    if (mb_strpos($stats_secure_const['remote_addr'], ', ') && isset($stats_secure_const['remote_addr'])) {
         $remote_addrs = explode(', ', $stats_secure_const['remote_addr']);
         if ('unknown' !== $remote_addrs[0] && 'none' !== $remote_addrs[0] && !empty($remote_addrs[0]) && !is_reserved($remote_addrs[0])) {
             $stats_secure_const['remote_addr'] = $remote_addrs[0];
@@ -1065,18 +1050,18 @@ function get_ip()
             $stats_secure_const['remote_addr'] = $remote_addrs[1];
         }
     }
-    if (isset($stats_secure_const['client_ip']) && false === stripos($stats_secure_const['client_ip'], 'none')
-        && false === stripos($stats_secure_const['client_ip'], 'unknown') /* && !is_reserved($stats_secure_const['client_ip']) */) {
+    if (isset($stats_secure_const['client_ip']) && false === mb_stripos($stats_secure_const['client_ip'], 'none')
+        && false === mb_stripos($stats_secure_const['client_ip'], 'unknown') /* && !is_reserved($stats_secure_const['client_ip']) */) {
         return $stats_secure_const['client_ip'];
-    } elseif (isset($stats_secure_const['forward_ip']) && false === stripos($stats_secure_const['forward_ip'], 'none')
-              && false === stripos($stats_secure_const['forward_ip'], 'unknown') /* && !is_reserved($stats_secure_const['forward_ip']) */) {
+    } elseif (isset($stats_secure_const['forward_ip']) && false === mb_stripos($stats_secure_const['forward_ip'], 'none')
+              && false === mb_stripos($stats_secure_const['forward_ip'], 'unknown') /* && !is_reserved($stats_secure_const['forward_ip']) */) {
         return $stats_secure_const['forward_ip'];
-    } elseif (isset($stats_secure_const['remote_addr']) && false === stripos($stats_secure_const['remote_addr'], 'none')
-              && false === stripos($stats_secure_const['remote_addr'], 'unknown') /* && !is_reserved($stats_secure_const['remote_addr']) */) {
+    } elseif (isset($stats_secure_const['remote_addr']) && false === mb_stripos($stats_secure_const['remote_addr'], 'none')
+              && false === mb_stripos($stats_secure_const['remote_addr'], 'unknown') /* && !is_reserved($stats_secure_const['remote_addr']) */) {
         return $stats_secure_const['remote_addr'];
-    } else {
-        return 'none';
     }
+
+    return 'none';
 }
 
 function get_server_ip()

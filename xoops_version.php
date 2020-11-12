@@ -11,19 +11,17 @@
 
 /**
  * @copyright      {@link https://xoops.org/ XOOPS Project}
- * @license        {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @license        {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @package
  * @since
  * @author         XOOPS Development Team
  */
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
 require_once __DIR__ . '/preloads/autoloader.php';
 
 $modversion['version']             = 0.70;
-$modversion['module_status']       = 'Beta 2';
-$modversion['release_date']        = '2017/07/23';
+$modversion['module_status']       = 'RC-1';
+$modversion['release_date']        = '2020/11/11';
 $modversion['name']                = _MI_STATISTICS_NAME;
 $modversion['description']         = _MI_STATISTICS_DESC;
 $modversion['author']              = 'Seventhseal (John Horne)';
@@ -45,8 +43,8 @@ $modversion['modicons32']          = 'assets/images/icons/32';
 $modversion['release_file']        = XOOPS_URL . '/modules/' . $modversion['dirname'] . '/docs/changelog.txt';
 $modversion['module_website_url']  = 'www.xoops.org';
 $modversion['module_website_name'] = 'XOOPS';
-$modversion['min_php']             = '5.5';
-$modversion['min_xoops']           = '2.5.9';
+$modversion['min_php']             = '7.2';
+$modversion['min_xoops']           = '2.5.10';
 $modversion['min_admin']           = '1.2';
 $modversion['min_db']              = ['mysql' => '5.5'];
 
@@ -113,7 +111,7 @@ $modversion['sub'][2]['name'] = _MI_STATISTICS_SMNAME2;
 $modversion['sub'][2]['url']  = 'hits.php';
 
 // this code shows only if logged in user
-/** @var XoopsModuleHandler $moduleHandler */
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->getByDirname($modversion['dirname']);
 $cansubmit     = 0;
@@ -172,7 +170,7 @@ $modversion['config'][1]['options']     = [
     '_MI_REFERERSPAMALLOW'     => 'Allow',
     '_MI_REFERERSPAMFORBIDDEN' => 'Forbidden',
     '_MI_REFERERSPAMIGNORE'    => 'Ignore',
-    '_MI_REFERERSPAMREFLECT'   => 'Reflect'
+    '_MI_REFERERSPAMREFLECT'   => 'Reflect',
 ];
 
 // stats_customforbidmsg
@@ -224,7 +222,7 @@ $modversion['config'][5]['default']     = [
     'crawl',
     'seer',
     'claymont',
-    'blaiz'
+    'blaiz',
 ];
 
 // stats_forbidbots
@@ -253,7 +251,7 @@ $modversion['config'][7]['default']     = [
     'boitho',
     'webcopier',
     'web downloader',
-    'gigabot'
+    'gigabot',
 ];
 
 // auto-purge referer list
@@ -268,5 +266,5 @@ $modversion['config'][8]['options']     = [
     '_MI_AUTOPURGESIXHOUR'    => 'sixhour',
     '_MI_AUTOPURGETWELVEHOUR' => 'twelvehour',
     '_MI_AUTOPURGEONEDAY'     => 'oneday',
-    '_MI_AUTOPURGEFIVEDAY'    => 'fiveday'
+    '_MI_AUTOPURGEFIVEDAY'    => 'fiveday',
 ];

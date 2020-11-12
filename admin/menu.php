@@ -11,21 +11,31 @@
 
 /**
  * @copyright      {@link https://xoops.org/ XOOPS Project}
- * @license        {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @license        {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @package
  * @since
  * @author         XOOPS Development Team
  */
 
-use XoopsModules\Statistics;
 
-// require_once  dirname(__DIR__) . '/class/Helper.php';
-//require_once  dirname(__DIR__) . '/include/common.php';
-$helper = Statistics\Helper::getInstance();
+use Xmf\Module\Admin;
+use XoopsModules\Statistics\{
+    Helper
+};
+/** @var Admin $adminObject */
+/** @var Helper $helper */
 
-$pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
-$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+$moduleDirName = basename(dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
+$helper = Helper::getInstance();
+$helper->loadLanguage('common');
+$helper->loadLanguage('feedback');
+
+$pathIcon32 = Admin::menuIconPath('');
+if (is_object($helper->getModule())) {
+    $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+}
 
 $adminmenu[] = [
     'title' => _MI_STATISTICS_HOME,
@@ -98,6 +108,14 @@ $adminmenu[] = [
     'link'  => 'admin/main.php?op=userscreen',
     'icon'  => $pathIcon32 . '/metagen.png',
 ];
+
+// Blocks Admin
+$adminmenu[] = [
+    'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'BLOCKS'),
+    'link' => 'admin/blocksadmin.php',
+    'icon' => $pathIcon32 . '/block.png',
+];
+
 
 $adminmenu[] = [
     'title' => _MI_STATISTICS_ABOUT,

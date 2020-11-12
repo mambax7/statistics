@@ -1,4 +1,5 @@
 <?php
+
 // version 0.60
 define('_STATS_UPGRADEFAILED', 'ERROR - Unable to UPGRADE XOOPStats');
 define('_STATS_UPGRADEFAILEDWWARN', 'XOOPStats upgraded with WARNINGS! - It may still function.');

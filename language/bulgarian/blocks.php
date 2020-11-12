@@ -1,4 +1,5 @@
 <?php
+
 define('B_STATS_CNTHEAD', 'Общо посещения');
 define('B_STATS_YRHEAD', 'Годишни посещения');
 define('B_STATS_HITDISPLAY', 'Изберете ниво посещения които да показва');

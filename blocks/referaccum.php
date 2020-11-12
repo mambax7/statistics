@@ -11,10 +11,11 @@
 
 /**
  * @copyright      {@link https://xoops.org/ XOOPS Project}
- * @license        {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @license        {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @package
  * @since
  * @author         XOOPS Development Team
+ * @param mixed $options
  */
 
 /******************************************************************************
@@ -28,9 +29,11 @@ function b_referaccum_show($options)
 {
     global $xoopsDB, $configHandler, $xoopsStatConfig;
 
-    /** @var XoopsModuleHandler $moduleHandler */
+    /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler   = xoops_getHandler('module');
     $xoopsStatModule = $moduleHandler->getByDirname('statistics');
+    /** @var \XoopsConfigHandler $configHandler */
+    $configHandler = xoops_getHandler('config');
     $xoopsStatConfig = $configHandler->getConfigsByCat(0, $xoopsStatModule->getVar('mid'));
 
     $showhowmany   = $options[0];
@@ -38,7 +41,7 @@ function b_referaccum_show($options)
 
     // get any current blacklist
     $result = $xoopsDB->queryF('SELECT * FROM ' . $xoopsDB->prefix('stats_refer_blacklist'));
-    list($id, $referer) = $xoopsDB->fetchRow($result);
+    [$id, $referer] = $xoopsDB->fetchRow($result);
     $referblacklist = unserialize(stripslashes($referer));
     if (!is_array($referblacklist)) { // something went wrong, or there is no data...
         $referblacklist = [];
@@ -50,41 +53,40 @@ function b_referaccum_show($options)
     $result    = $xoopsDB->queryF('SELECT refer, SUM(hits) AS total FROM ' . $xoopsDB->prefix('stats_refer') . ' GROUP BY refer ORDER BY total DESC');
     $referhits = [];
     $cnt       = 0;
-    while (false !== (list($refer, $total) = $xoopsDB->fetchRow($result))) {
+    while (list($refer, $total) = $xoopsDB->fetchRow($result)) {
         if ((0 == $showselfrefer && !strcmp($refer, $_SERVER['HTTP_HOST'])) || '' == $refer) {
             continue;
-        } else {
-            // see if we have a blacklist
-            $blacklisted = false;
+        }
+        // see if we have a blacklist
+        $blacklisted = false;
 
-            if ('Allow' != $xoopsStatConfig['refererspam']) {  // make sure they really want them ignored
-                if (count($referblacklist) > 0) {
-                    $rbldelimited = '/' . implode('|', $referblacklist) . '/';
-                    if (preg_match($rbldelimited, $refer)) {
-                        $blacklisted = true;
-                        continue;
-                    }
+        if ('Allow' != $xoopsStatConfig['refererspam']) {  // make sure they really want them ignored
+            if (count($referblacklist) > 0) {
+                $rbldelimited = '/' . implode('|', $referblacklist) . '/';
+                if (preg_match($rbldelimited, $refer)) {
+                    $blacklisted = true;
+                    continue;
                 }
             }
+        }
 
-            if (false === $blacklisted) {
-                $referhits[$cnt]['refer'] = $refer;
-                $referhits[$cnt]['hits']  = '';
-                if (strlen($total) < 3) {
-                    $hits = sprintf('%03d', $total);
-                }
-                for ($i = 0, $iMax = strlen($total); $i < $iMax; ++$i) {
-                    //the <img src> tag
-                    $imgsrc                  = substr($total, $i, 1);
-                    $referhits[$cnt]['hits'] .= '<img src="' . XOOPS_URL . '/modules/statistics/assets/images/' . $imgsrc . '.gif" border = "0">';
-                }
-
-                ++$cnt;
+        if (false === $blacklisted) {
+            $referhits[$cnt]['refer'] = $refer;
+            $referhits[$cnt]['hits']  = '';
+            if (mb_strlen($total) < 3) {
+                $hits = sprintf('%03d', $total);
+            }
+            for ($i = 0, $iMax = mb_strlen($total); $i < $iMax; ++$i) {
+                //the <img src> tag
+                $imgsrc                  = mb_substr($total, $i, 1);
+                $referhits[$cnt]['hits'] .= '<img src="' . XOOPS_URL . '/modules/statistics/assets/images/' . $imgsrc . '.gif" border = "0">';
             }
 
-            if ($cnt == $showhowmany) {
-                break;
-            }
+            ++$cnt;
+        }
+
+        if ($cnt == $showhowmany) {
+            break;
         }
     }
 

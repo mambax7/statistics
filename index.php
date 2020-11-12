@@ -11,132 +11,131 @@
 
 /**
  * @copyright      {@link https://xoops.org/ XOOPS Project}
- * @license        {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @license        {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @package
  * @since
  * @author         XOOPS Development Team
  */
-
-include  dirname(dirname(__DIR__)) . '/mainfile.php';
+require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 $GLOBALS['xoopsOption']['template_main'] = 'statistics.tpl';
-include XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 
 function mainStats()
 {
     global $xoopsDB, $xoopsTpl;
     $count  = 0;
     $result = $xoopsDB->queryF('SELECT type, var, count FROM ' . $xoopsDB->prefix('counter') . " WHERE type='total' AND var='hits'");
-    list($type, $var, $count) = $xoopsDB->fetchRow($result);
+    [$type, $var, $count] = $xoopsDB->fetchRow($result);
     $total = $count;
 
     $count  = 0;
     $result = $xoopsDB->queryF('SELECT type, var, count FROM ' . $xoopsDB->prefix('counter') . " WHERE type='totalblocked' AND var='hits'");
-    list($type, $var, $count) = $xoopsDB->fetchRow($result);
+    [$type, $var, $count] = $xoopsDB->fetchRow($result);
     $totalblocked = $count;
 
     $result = $xoopsDB->queryF('SELECT type, var, count FROM ' . $xoopsDB->prefix('counter') . ' ORDER BY type DESC');
-    while (false !== (list($type, $var, $count) = $xoopsDB->fetchRow($result))) {
+    while (list($type, $var, $count) = $xoopsDB->fetchRow($result)) {
         if ('browser' === $type) {
             if ('Netscape' === $var) {
                 $netscape[] = $count;
                 $percent    = (0 == $total ? 0 : $count / $total);
-                $netscape[] = substr(100 * $percent, 0, 5);
+                $netscape[] = mb_substr(100 * $percent, 0, 5);
             } elseif ('MSIE' === $var) {
                 $msie[]  = $count;
                 $percent = (0 == $total ? 0 : $count / $total);
-                $msie[]  = substr(100 * $percent, 0, 5);
+                $msie[]  = mb_substr(100 * $percent, 0, 5);
             } elseif ('Konqueror' === $var) {
                 $konqueror[] = $count;
                 $percent     = (0 == $total ? 0 : $count / $total);
-                $konqueror[] = substr(100 * $percent, 0, 5);
+                $konqueror[] = mb_substr(100 * $percent, 0, 5);
             } elseif ('Opera' === $var) {
                 $opera[] = $count;
                 $percent = (0 == $total ? 0 : $count / $total);
-                $opera[] = substr(100 * $percent, 0, 5);
+                $opera[] = mb_substr(100 * $percent, 0, 5);
             } elseif ('Lynx' === $var) {
                 $lynx[]  = $count;
                 $percent = (0 == $total ? 0 : $count / $total);
-                $lynx[]  = substr(100 * $percent, 0, 5);
+                $lynx[]  = mb_substr(100 * $percent, 0, 5);
             } elseif ('Bot' === $var) {
                 $bot[]   = $count;
                 $percent = (0 == $total ? 0 : $count / $total);
-                $bot[]   = substr(100 * $percent, 0, 5);
+                $bot[]   = mb_substr(100 * $percent, 0, 5);
             } elseif ('AppleWeb' === $var) {
                 $apple[] = $count;
                 $percent = (0 == $total ? 0 : $count / $total);
-                $apple[] = substr(100 * $percent, 0, 5);
+                $apple[] = mb_substr(100 * $percent, 0, 5);
             } elseif ('Firefox' === $var) {
                 $firefox[] = $count;
                 $percent   = (0 == $total ? 0 : $count / $total);
-                $firefox[] = substr(100 * $percent, 0, 5);
+                $firefox[] = mb_substr(100 * $percent, 0, 5);
             } elseif ('Mozilla' === $var) {
                 $mozilla[] = $count;
                 $percent   = (0 == $total ? 0 : $count / $total);
-                $mozilla[] = substr(100 * $percent, 0, 5);
+                $mozilla[] = mb_substr(100 * $percent, 0, 5);
             } elseif ('Deepnet' === $var) {
                 $deepnet[] = $count;
                 $percent   = (0 == $total ? 0 : $count / $total);
-                $deepnet[] = substr(100 * $percent, 0, 5);
+                $deepnet[] = mb_substr(100 * $percent, 0, 5);
             } elseif ('Avant' === $var) {
                 $avant[] = $count;
                 $percent = (0 == $total ? 0 : $count / $total);
-                $avant[] = substr(100 * $percent, 0, 5);
+                $avant[] = mb_substr(100 * $percent, 0, 5);
             } elseif ('Other' === $var) {
                 $b_other[] = $count;
                 $percent   = (0 == $total ? 0 : $count / $total);
-                $b_other[] = substr(100 * $percent, 0, 5);
+                $b_other[] = mb_substr(100 * $percent, 0, 5);
             }
         } elseif ('os' === $type) {
             if ('Windows' === $var) {
                 $windows[] = $count;
                 $percent   = (0 == $total ? 0 : $count / $total);
-                $windows[] = substr(100 * $percent, 0, 5);
+                $windows[] = mb_substr(100 * $percent, 0, 5);
             } elseif ('Mac' === $var) {
                 $mac[]   = $count;
                 $percent = (0 == $total ? 0 : $count / $total);
-                $mac[]   = substr(100 * $percent, 0, 5);
+                $mac[]   = mb_substr(100 * $percent, 0, 5);
             } elseif ('Linux' === $var) {
                 $linux[] = $count;
                 $percent = (0 == $total ? 0 : $count / $total);
-                $linux[] = substr(100 * $percent, 0, 5);
+                $linux[] = mb_substr(100 * $percent, 0, 5);
             } elseif ('FreeBSD' === $var) {
                 $freebsd[] = $count;
                 $percent   = (0 == $total ? 0 : $count / $total);
-                $freebsd[] = substr(100 * $percent, 0, 5);
+                $freebsd[] = mb_substr(100 * $percent, 0, 5);
             } elseif ('SunOS' === $var) {
                 $sunos[] = $count;
                 $percent = (0 == $total ? 0 : $count / $total);
-                $sunos[] = substr(100 * $percent, 0, 5);
+                $sunos[] = mb_substr(100 * $percent, 0, 5);
             } elseif ('IRIX' === $var) {
                 $irix[]  = $count;
                 $percent = (0 == $total ? 0 : $count / $total);
-                $irix[]  = substr(100 * $percent, 0, 5);
+                $irix[]  = mb_substr(100 * $percent, 0, 5);
             } elseif ('BeOS' === $var) {
                 $beos[]  = $count;
                 $percent = (0 == $total ? 0 : $count / $total);
-                $beos[]  = substr(100 * $percent, 0, 5);
+                $beos[]  = mb_substr(100 * $percent, 0, 5);
             } elseif ('OS/2' === $var) {
                 $os2[]   = $count;
                 $percent = (0 == $total ? 0 : $count / $total);
-                $os2[]   = substr(100 * $percent, 0, 5);
+                $os2[]   = mb_substr(100 * $percent, 0, 5);
             } elseif ('AIX' === $var) {
                 $aix[]   = $count;
                 $percent = (0 == $total ? 0 : $count / $total);
-                $aix[]   = substr(100 * $percent, 0, 5);
+                $aix[]   = mb_substr(100 * $percent, 0, 5);
             } elseif ('Other' === $var) {
                 $os_other[] = $count;
                 $percent    = (0 == $total ? 0 : $count / $total);
-                $os_other[] = substr(100 * $percent, 0, 5);
+                $os_other[] = mb_substr(100 * $percent, 0, 5);
             }
         } elseif ('blocked' === $type) {
             if ('bots' === $var) {
                 $blockedbots[] = $count;
                 $percent       = (0 == $totalblocked ? 0 : $count / $totalblocked);
-                $blockedbots[] = substr(100 * $percent, 0, 5);
+                $blockedbots[] = mb_substr(100 * $percent, 0, 5);
             } elseif ('referers' === $var) {
                 $blockedreferers[] = $count;
                 $percent           = (0 == $totalblocked ? 0 : $count / $totalblocked);
-                $blockedreferers[] = substr(100 * $percent, 0, 5);
+                $blockedreferers[] = mb_substr(100 * $percent, 0, 5);
             }
         }
     }
@@ -150,7 +149,7 @@ function mainStats()
     $result   = $xoopsDB->queryF('SELECT year, hits FROM ' . $xoopsDB->prefix('stats_year'));
     $yearhits = [];
     $i        = 0;
-    while (false !== (list($year, $hits) = $xoopsDB->fetchRow($result))) {
+    while (list($year, $hits) = $xoopsDB->fetchRow($result)) {
         $yearhits[$i]['year'] = $year;
         $yearhits[$i]['hits'] = $hits;
         ++$i;
@@ -161,7 +160,7 @@ function mainStats()
     $result    = $xoopsDB->queryF('SELECT year, hits FROM ' . $xoopsDB->prefix('stats_blockedyear'));
     $byearhits = [];
     $i         = 0;
-    while (false !== (list($year, $hits) = $xoopsDB->fetchRow($result))) {
+    while (list($year, $hits) = $xoopsDB->fetchRow($result)) {
         $byearhits[$i]['year'] = $year;
         $byearhits[$i]['hits'] = $hits;
         ++$i;
@@ -175,106 +174,115 @@ function mainStats()
     $xoopsTpl->assign('lang_stat_uahead', STATS_USER_AGENT);
     $xoopsTpl->assign(
         'lang_stat_msie',
-                      "<tr><td><img src=\"assets/images/explorer.gif\" border=\"0\" alt=\"\">MSIE:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Internet Explorer\"><img src=\"assets/images/mainbar.gif\" Alt=\"Internet Explorer\" height=\"$m_size[1]\" width=\"$msie[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Internet Explorer\">$msie[1] % ($msie[0])</td></tr>"
+        "<tr><td><img src=\"assets/images/explorer.gif\" border=\"0\" alt=\"\">MSIE:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Internet Explorer\"><img src=\"assets/images/mainbar.gif\" Alt=\"Internet Explorer\" height=\"$m_size[1]\" width=\"$msie[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Internet Explorer\">$msie[1] % ($msie[0])</td></tr>"
     );
     $xoopsTpl->assign(
         'lang_stat_netscape',
-                      "<tr><td><img src=\"assets/images/netscape.gif\" border=\"0\" alt=\"\">Netscape:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Netscape\"><img src=\"assets/images/mainbar.gif\" Alt=\"Netscape\" height=\"$m_size[1]\" width=\"$netscape[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Netscape\"> $netscape[1] % ($netscape[0])</td></tr>"
+        "<tr><td><img src=\"assets/images/netscape.gif\" border=\"0\" alt=\"\">Netscape:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Netscape\"><img src=\"assets/images/mainbar.gif\" Alt=\"Netscape\" height=\"$m_size[1]\" width=\"$netscape[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Netscape\"> $netscape[1] % ($netscape[0])</td></tr>"
     );
     $xoopsTpl->assign(
         'lang_stat_opera',
-                      "<tr><td><img src=\"assets/images/opera.gif\" border=\"0\" alt=\"\">&nbsp;Opera: </td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Opera\"><img src=\"assets/images/mainbar.gif\" Alt=\"Opera\" height=\"$m_size[1]\" width=\"$opera[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Opera\"> $opera[1] % ($opera[0])</td></tr>"
+        "<tr><td><img src=\"assets/images/opera.gif\" border=\"0\" alt=\"\">&nbsp;Opera: </td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Opera\"><img src=\"assets/images/mainbar.gif\" Alt=\"Opera\" height=\"$m_size[1]\" width=\"$opera[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Opera\"> $opera[1] % ($opera[0])</td></tr>"
     );
     $xoopsTpl->assign(
         'lang_stat_kon',
-                      "<tr><td><img src=\"assets/images/konqueror.gif\" border=\"0\" alt=\"\">&nbsp;Konqueror: </td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Konqueror\"><img src=\"assets/images/mainbar.gif\" Alt=\"Konqueror (KDE)\" height=\"$m_size[1]\" width=\"$konqueror[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Konqueror\"> $konqueror[1] % ($konqueror[0])</td></tr>"
+        "<tr><td><img src=\"assets/images/konqueror.gif\" border=\"0\" alt=\"\">&nbsp;Konqueror: </td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Konqueror\"><img src=\"assets/images/mainbar.gif\" Alt=\"Konqueror (KDE)\" height=\"$m_size[1]\" width=\"$konqueror[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Konqueror\"> $konqueror[1] % ($konqueror[0])</td></tr>"
     );
     $xoopsTpl->assign(
         'lang_stat_lynx',
-                      "<tr><td><img src=\"assets/images/lynx.gif\" border=\"0\" alt=\"\">&nbsp;Lynx: </td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Lynx\"><img src=\"assets/images/mainbar.gif\" Alt=\"Lynx\" height=\"$m_size[1]\" width=\"$lynx[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Lynx\"> $lynx[1] % ($lynx[0])</td></tr>"
+        "<tr><td><img src=\"assets/images/lynx.gif\" border=\"0\" alt=\"\">&nbsp;Lynx: </td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Lynx\"><img src=\"assets/images/mainbar.gif\" Alt=\"Lynx\" height=\"$m_size[1]\" width=\"$lynx[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Lynx\"> $lynx[1] % ($lynx[0])</td></tr>"
     );
     $xoopsTpl->assign(
         'lang_stat_apple',
-                      "<tr><td><img src=\"assets/images/apple.png\" border=\"0\" alt=\"\">&nbsp;AppleWebKit: </td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"AppleWebKit\"><img src=\"assets/images/mainbar.gif\" Alt=\"AppleWebKit\" height=\"$m_size[1]\" width=\"$apple[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"AppleWebKit\"> $apple[1] % ($apple[0])</td></tr>"
+        "<tr><td><img src=\"assets/images/apple.png\" border=\"0\" alt=\"\">&nbsp;AppleWebKit: </td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"AppleWebKit\"><img src=\"assets/images/mainbar.gif\" Alt=\"AppleWebKit\" height=\"$m_size[1]\" width=\"$apple[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"AppleWebKit\"> $apple[1] % ($apple[0])</td></tr>"
     );
     $xoopsTpl->assign(
         'lang_stat_firefox',
-                      "<tr><td><img src=\"assets/images/firefox.png\" border=\"0\" alt=\"\">&nbsp;Firefox: </td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Firefox\"><img src=\"assets/images/mainbar.gif\" Alt=\"Firefox\" height=\"$m_size[1]\" width=\"$firefox[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Firefox\"> $firefox[1] % ($firefox[0])</td></tr>"
+        "<tr><td><img src=\"assets/images/firefox.png\" border=\"0\" alt=\"\">&nbsp;Firefox: </td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Firefox\"><img src=\"assets/images/mainbar.gif\" Alt=\"Firefox\" height=\"$m_size[1]\" width=\"$firefox[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Firefox\"> $firefox[1] % ($firefox[0])</td></tr>"
     );
     $xoopsTpl->assign(
         'lang_stat_mozilla',
-                      "<tr><td><img src=\"assets/images/mozilla.png\" border=\"0\" alt=\"\">&nbsp;Mozilla: </td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Mozilla\"><img src=\"assets/images/mainbar.gif\" Alt=\"Mozilla\" height=\"$m_size[1]\" width=\"$mozilla[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Mozilla\"> $mozilla[1] % ($mozilla[0])</td></tr>"
+        "<tr><td><img src=\"assets/images/mozilla.png\" border=\"0\" alt=\"\">&nbsp;Mozilla: </td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Mozilla\"><img src=\"assets/images/mainbar.gif\" Alt=\"Mozilla\" height=\"$m_size[1]\" width=\"$mozilla[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Mozilla\"> $mozilla[1] % ($mozilla[0])</td></tr>"
     );
     $xoopsTpl->assign(
         'lang_stat_deepnet',
-                      "<tr><td><img src=\"assets/images/deepnet.gif\" border=\"0\" alt=\"\">&nbsp;Deepnet: </td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Deepnet\"><img src=\"assets/images/mainbar.gif\" Alt=\"Deepnet\" height=\"$m_size[1]\" width=\"$deepnet[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Deepnet\"> $deepnet[1] % ($deepnet[0])</td></tr>"
+        "<tr><td><img src=\"assets/images/deepnet.gif\" border=\"0\" alt=\"\">&nbsp;Deepnet: </td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Deepnet\"><img src=\"assets/images/mainbar.gif\" Alt=\"Deepnet\" height=\"$m_size[1]\" width=\"$deepnet[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Deepnet\"> $deepnet[1] % ($deepnet[0])</td></tr>"
     );
     $xoopsTpl->assign(
         'lang_stat_avant',
-                      "<tr><td><img src=\"assets/images/avant.gif\" border=\"0\" alt=\"\">&nbsp;Avant: </td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Avant\"><img src=\"assets/images/mainbar.gif\" Alt=\"Avant\" height=\"$m_size[1]\" width=\"$avant[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Avant\"> $avant[1] % ($avant[0])</td></tr>"
+        "<tr><td><img src=\"assets/images/avant.gif\" border=\"0\" alt=\"\">&nbsp;Avant: </td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Avant\"><img src=\"assets/images/mainbar.gif\" Alt=\"Avant\" height=\"$m_size[1]\" width=\"$avant[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Avant\"> $avant[1] % ($avant[0])</td></tr>"
     );
-    $xoopsTpl->assign('lang_stat_altavista', '<tr><td><img src="assets/images/altavista.gif" border="0" alt="">&nbsp;'
-                                             . STATS_SEARCHENGINES
-                                             . ": </td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Robots - Spiders - Buscadores\"><img src=\"assets/images/mainbar.gif\" Alt=\"Robots - Spiders - Buscadores\" height=\"$m_size[1]\" width=\"$bot[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\""
-                                             . STATS_BOTS
-                                             . "\"> $bot[1] % ($bot[0])</td></tr>");
-    $xoopsTpl->assign('lang_stat_question', '<tr><td><img src="assets/images/question.gif" border="0" alt="">&nbsp;'
-                                            . STATS_UNKNOWN
-                                            . ": </td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Otros - Desconocidos\"><img src=\"assets/images/mainbar.gif\" Alt=\"Otros - Desconocidos\" height=\"$m_size[1]\" width=\"$b_other[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\""
-                                            . STATS_OTHER
-                                            . "\"> $b_other[1] % ($b_other[0])");
+    $xoopsTpl->assign(
+        'lang_stat_altavista',
+        '<tr><td><img src="assets/images/altavista.gif" border="0" alt="">&nbsp;'
+        . STATS_SEARCHENGINES
+        . ": </td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Robots - Spiders - Buscadores\"><img src=\"assets/images/mainbar.gif\" Alt=\"Robots - Spiders - Buscadores\" height=\"$m_size[1]\" width=\"$bot[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\""
+        . STATS_BOTS
+        . "\"> $bot[1] % ($bot[0])</td></tr>"
+    );
+    $xoopsTpl->assign(
+        'lang_stat_question',
+        '<tr><td><img src="assets/images/question.gif" border="0" alt="">&nbsp;'
+        . STATS_UNKNOWN
+        . ": </td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Otros - Desconocidos\"><img src=\"assets/images/mainbar.gif\" Alt=\"Otros - Desconocidos\" height=\"$m_size[1]\" width=\"$b_other[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\""
+        . STATS_OTHER
+        . "\"> $b_other[1] % ($b_other[0])"
+    );
 
     $xoopsTpl->assign('lang_stat_opersys', STATS_OPERATINGSYS);
     $xoopsTpl->assign(
         'lang_stat_windows',
-                      "<tr><td><img src=\"assets/images/windows.gif\" border=\"0\" alt=\"\">Windows:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Windows\"><img src=\"assets/images/mainbar.gif\" Alt=\"Windows\" height=\"$m_size[1]\" width=\"$windows[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Windows\"> $windows[1] % ($windows[0])</td></tr>"
+        "<tr><td><img src=\"assets/images/windows.gif\" border=\"0\" alt=\"\">Windows:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Windows\"><img src=\"assets/images/mainbar.gif\" Alt=\"Windows\" height=\"$m_size[1]\" width=\"$windows[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Windows\"> $windows[1] % ($windows[0])</td></tr>"
     );
     $xoopsTpl->assign(
         'lang_stat_linux',
-                      "<tr><td><img src=\"assets/images/linux.gif\" border=\"0\" alt=\"\">Linux:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Linux\"><img src=\"assets/images/mainbar.gif\" Alt=\"Linux\" height=\"$m_size[1]\" width=\"$linux[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Linux\"> $linux[1] % ($linux[0])</td></tr>"
+        "<tr><td><img src=\"assets/images/linux.gif\" border=\"0\" alt=\"\">Linux:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Linux\"><img src=\"assets/images/mainbar.gif\" Alt=\"Linux\" height=\"$m_size[1]\" width=\"$linux[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Linux\"> $linux[1] % ($linux[0])</td></tr>"
     );
     $xoopsTpl->assign(
         'lang_stat_mac',
-                      "<tr><td><img src=\"assets/images/mac.gif\" border=\"0\" alt=\"\">Mac/PPC:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Mac/PPC\"><img src=\"assets/images/mainbar.gif\" Alt=\"Mac - PPC\" height=\"$m_size[1]\" width=\"$mac[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Mac/PPC\"> $mac[1] % ($mac[0])</td></tr>"
+        "<tr><td><img src=\"assets/images/mac.gif\" border=\"0\" alt=\"\">Mac/PPC:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Mac/PPC\"><img src=\"assets/images/mainbar.gif\" Alt=\"Mac - PPC\" height=\"$m_size[1]\" width=\"$mac[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Mac/PPC\"> $mac[1] % ($mac[0])</td></tr>"
     );
     $xoopsTpl->assign(
         'lang_stat_bsd',
-                      "<tr><td><img src=\"assets/images/bsd.gif\" border=\"0\" alt=\"\">FreeBSD:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"FreeBSD\"><img src=\"assets/images/mainbar.gif\" Alt=\"FreeBSD\" height=\"$m_size[1]\" width=\"$freebsd[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"FreeBSD\"> $freebsd[1] % ($freebsd[0])</td></tr>"
+        "<tr><td><img src=\"assets/images/bsd.gif\" border=\"0\" alt=\"\">FreeBSD:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"FreeBSD\"><img src=\"assets/images/mainbar.gif\" Alt=\"FreeBSD\" height=\"$m_size[1]\" width=\"$freebsd[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"FreeBSD\"> $freebsd[1] % ($freebsd[0])</td></tr>"
     );
     $xoopsTpl->assign(
         'lang_stat_sun',
-                      "<tr><td><img src=\"assets/images/sun.gif\" border=\"0\" alt=\"\">SunOS:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"SunOS\"><img src=\"assets/images/mainbar.gif\" Alt=\"SunOS\" height=\"$m_size[1]\" width=\"$sunos[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"SunOS\"> $sunos[1] % ($sunos[0])</td></tr>"
+        "<tr><td><img src=\"assets/images/sun.gif\" border=\"0\" alt=\"\">SunOS:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"SunOS\"><img src=\"assets/images/mainbar.gif\" Alt=\"SunOS\" height=\"$m_size[1]\" width=\"$sunos[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"SunOS\"> $sunos[1] % ($sunos[0])</td></tr>"
     );
     $xoopsTpl->assign(
         'lang_stat_irix',
-                      "<tr><td><img src=\"assets/images/irix.gif\" border=\"0\" alt=\"\">IRIX:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"SGI Irix\"><img src=\"assets/images/mainbar.gif\" Alt=\"SGI Irix\" height=\"$m_size[1]\" width=\"$irix[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"SGI Irix\"> $irix[1] % ($irix[0])</td></tr>"
+        "<tr><td><img src=\"assets/images/irix.gif\" border=\"0\" alt=\"\">IRIX:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"SGI Irix\"><img src=\"assets/images/mainbar.gif\" Alt=\"SGI Irix\" height=\"$m_size[1]\" width=\"$irix[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"SGI Irix\"> $irix[1] % ($irix[0])</td></tr>"
     );
     $xoopsTpl->assign(
         'lang_stat_be',
-                      "<tr><td><img src=\"assets/images/be.gif\" border=\"0\" alt=\"\">BeOS:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"BeOS\"><img src=\"assets/images/mainbar.gif\" Alt=\"BeOS\" height=\"$m_size[1]\" width=\"$beos[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"BeOS\"> $beos[1] % ($beos[0])</td></tr>"
+        "<tr><td><img src=\"assets/images/be.gif\" border=\"0\" alt=\"\">BeOS:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"BeOS\"><img src=\"assets/images/mainbar.gif\" Alt=\"BeOS\" height=\"$m_size[1]\" width=\"$beos[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"BeOS\"> $beos[1] % ($beos[0])</td></tr>"
     );
     $xoopsTpl->assign(
         'lang_stat_os2',
-                      "<tr><td><img src=\"assets/images/os2.gif\" border=\"0\" alt=\"\">OS/2:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"OS/2\"><img src=\"assets/images/mainbar.gif\" Alt=\"OS/2\" height=\"$m_size[1]\" width=\"$os2[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"OS/2\"> $os2[1] % ($os2[0])</td></tr>"
+        "<tr><td><img src=\"assets/images/os2.gif\" border=\"0\" alt=\"\">OS/2:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"OS/2\"><img src=\"assets/images/mainbar.gif\" Alt=\"OS/2\" height=\"$m_size[1]\" width=\"$os2[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"OS/2\"> $os2[1] % ($os2[0])</td></tr>"
     );
     $xoopsTpl->assign(
         'lang_stat_aix',
-                      "<tr><td><img src=\"assets/images/aix.gif\" border=\"0\" alt=\"\">&nbsp;AIX:</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"AIX\"><img src=\"assets/images/mainbar.gif\" Alt=\"AIX\" height=\"$m_size[1]\" width=\"$aix[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"AIX\"> $aix[1] % ($aix[0])</td></tr>"
+        "<tr><td><img src=\"assets/images/aix.gif\" border=\"0\" alt=\"\">&nbsp;AIX:</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"AIX\"><img src=\"assets/images/mainbar.gif\" Alt=\"AIX\" height=\"$m_size[1]\" width=\"$aix[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"AIX\"> $aix[1] % ($aix[0])</td></tr>"
     );
-    $xoopsTpl->assign('lang_stat_osquestion', '<tr><td><img src="assets/images/question.gif" border="0" alt="">&nbsp;'
-                                              . STATS_UNKNOWN
-                                              . ":</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Otros - Desconocidos\"><img src=\"assets/images/mainbar.gif\" ALt=\"Otros - Desconocidos\" height=\"$m_size[1]\" width=\"$os_other[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\""
-                                              . STATS_OTHER
-                                              . "\"> $os_other[1] % ($os_other[0])");
+    $xoopsTpl->assign(
+        'lang_stat_osquestion',
+        '<tr><td><img src="assets/images/question.gif" border="0" alt="">&nbsp;'
+        . STATS_UNKNOWN
+        . ":</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Otros - Desconocidos\"><img src=\"assets/images/mainbar.gif\" ALt=\"Otros - Desconocidos\" height=\"$m_size[1]\" width=\"$os_other[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\""
+        . STATS_OTHER
+        . "\"> $os_other[1] % ($os_other[0])"
+    );
 
     $xoopsTpl->assign('lang_stat_blockedtype', STATS_BLOCKEDTYPE);
     $xoopsTpl->assign(
         'lang_stat_blockedbots',
-                      "<tr><td><img src=\"assets/images/altavista.gif\" border=\"0\" alt=\"\">Bots:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Bots\"><img src=\"assets/images/mainbar.gif\" Alt=\"Bots\" height=\"$m_size[1]\" width=\"$blockedbots[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Bots\"> $blockedbots[1] % ($blockedbots[0])</td></tr>"
+        "<tr><td><img src=\"assets/images/altavista.gif\" border=\"0\" alt=\"\">Bots:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Bots\"><img src=\"assets/images/mainbar.gif\" Alt=\"Bots\" height=\"$m_size[1]\" width=\"$blockedbots[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Bots\"> $blockedbots[1] % ($blockedbots[0])</td></tr>"
     );
     $xoopsTpl->assign(
         'lang_stat_blockedreferers',
-                      "<tr><td><img src=\"assets/images/explorer.gif\" border=\"0\" alt=\"\">Referers:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Referers\"><img src=\"assets/images/mainbar.gif\" Alt=\"Referers\" height=\"$m_size[1]\" width=\"$blockedreferers[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Referers\"> $blockedreferers[1] % ($blockedreferers[0])</td></tr>"
+        "<tr><td><img src=\"assets/images/explorer.gif\" border=\"0\" alt=\"\">Referers:&nbsp;</td><td><img src=\"assets/images/leftbar.gif\" height=\"$l_size[1]\" width=\"$l_size[0]\" Alt=\"Referers\"><img src=\"assets/images/mainbar.gif\" Alt=\"Referers\" height=\"$m_size[1]\" width=\"$blockedreferers[1] * 2\"><img src=\"assets/images/rightbar.gif\" height=\"$r_size[1]\" width=\"$r_size[0]\" Alt=\"Referers\"> $blockedreferers[1] % ($blockedreferers[0])</td></tr>"
     );
 
     $xoopsTpl->assign('lang_misc_stats', STATS_MISC);
@@ -406,4 +414,4 @@ function mainStats()
 
 mainStats();
 
-include XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

@@ -1,5 +1,6 @@
 <?php
-require_once  dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+
+require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 
 $moduleDirName = basename(dirname(__DIR__));
 xoops_loadLanguage('main', $moduleDirName);
@@ -35,12 +36,12 @@ class xWhois
         $host   = '';
 
         // .tv don't allow access to their whois
-        if (false !== strpos($domain, '.tv')) {
-            //$result = "'.tv' domain names require you to have an account to do whois searches.";
+        if (false !== mb_strpos($domain, '.tv')) {
+            //$result = "'.tv' domain names require_once you to have an account to do whois searches.";
             $result = "Please contact us regarding the $domain";
-        // New domains fix (half work, half don't)
-        } elseif (false !== strpos($domain, '.name') || false !== strpos($domain, '.pro') > 0) {
-            //$result = ".name,.pro require you to have an account to do whois searches.";
+            // New domains fix (half work, half don't)
+        } elseif (false !== mb_strpos($domain, '.name') || false !== mb_strpos($domain, '.pro') > 0) {
+            //$result = ".name,.pro require_once you to have an account to do whois searches.";
             $result = "Please contact us regarding $domain";
         } else {
             if (empty($this->whois_server)) {
@@ -93,7 +94,7 @@ class xWhois
             }
             fclose($fp);
 
-            $d = stristr($d, 'Search results for: ');
+            $d = mb_stristr($d, 'Search results for: ');
             $d = str_replace('cgi-bin/whois.pl?queryinput=N%20!%20', 'modules/statistics/admin/index.php?op=reverseip&iplookup=', $d);
             $d = str_replace('cgi-bin/whois.pl?queryinput=P%20!%20', 'modules/statistics/admin/index.php?op=reverseip&iplookup=', $d);
         }

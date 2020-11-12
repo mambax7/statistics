@@ -11,18 +11,21 @@
 
 /**
  * @copyright      {@link https://xoops.org/ XOOPS Project}
- * @license        {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @license        {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @package
  * @since
  * @author         XOOPS Development Team
  */
 
-require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+use XoopsModules\Statistics\Utility;
+
+require_once __DIR__ . '/admin_header.php';
+
 $moduleDirName = basename(dirname(__DIR__));
 xoops_loadLanguage('main', $moduleDirName);
 
 // require_once  dirname(__DIR__) . '/class/clsWhois.php';
-require_once  dirname(__DIR__) . '/include/statutils.php';
+//require_once dirname(__DIR__) . '/include/statutils.php';
 
 function remoteAddr()
 {
@@ -31,7 +34,7 @@ function remoteAddr()
     $result = $xoopsDB->queryF('SELECT ip, date, hits FROM ' . $xoopsDB->prefix('stats_ip') . ' ORDER BY date');
     $iplist = [];
     $i      = 0;
-    while (false !== (list($ip, $date, $hits) = $xoopsDB->fetchRow($result))) {
+    while (list($ip, $date, $hits) = $xoopsDB->fetchRow($result)) {
         $iplist[$i]['ip']   = $ip;
         $iplist[$i]['hits'] = $hits;
         preg_match('/([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})/', $date, $regs);
@@ -44,7 +47,7 @@ function remoteAddr()
 
     echo "<h4 style='text-align:left;'>" . STATS_REMOTEADDR_HEAD . ' - ' . STATS_STDIP . "</h4><br>\n";
     echo "<table><tr><td>\n";
-    echo "<form action='main.php' method='post'>\n";
+    echo "<form action='index.php' method='post'>\n";
     echo $GLOBALS['xoopsSecurity']->getTokenHTML();
     echo "<input type='hidden' name='op' value='purge_ips'>\n";
     echo "<input type='submit' value='" . STATS_IPPURGE . "' name='selsubmit'>";
@@ -72,7 +75,7 @@ function uniqueRemoteAddr()
     $result = $xoopsDB->queryF('SELECT ip, SUM(hits) AS total FROM ' . $xoopsDB->prefix('stats_ip') . ' GROUP BY ip ORDER BY total DESC');
     $iplist = [];
     $i      = 0;
-    while (false !== (list($ip, $total) = $xoopsDB->fetchRow($result))) {
+    while (list($ip, $total) = $xoopsDB->fetchRow($result)) {
         $iplist[$i]['ip']   = $ip;
         $iplist[$i]['hits'] = $total;
         ++$i;
@@ -123,7 +126,7 @@ function referDB($orderby)
     $result    = $xoopsDB->queryF('select ip, refer, date, hits, referpath from ' . $xoopsDB->prefix('stats_refer') . " order by $orderby DESC");
     $referlist = [];
     $i         = 0;
-    while (false !== (list($ip, $refer, $date, $hits, $referpath) = $xoopsDB->fetchRow($result))) {
+    while (list($ip, $refer, $date, $hits, $referpath) = $xoopsDB->fetchRow($result)) {
         $referpathparts = explode('|', $referpath);
 
         $referlist[$i]['ip']        = $ip;
@@ -157,7 +160,7 @@ function referDB($orderby)
 
     // get any current blacklist
     $result = $xoopsDB->queryF('SELECT * FROM ' . $xoopsDB->prefix('stats_refer_blacklist'));
-    list($id, $referer) = $xoopsDB->fetchRow($result);
+    [$id, $referer] = $xoopsDB->fetchRow($result);
     $referblacklist = unserialize(stripslashes($referer));
     if (!is_array($referblacklist)) { // something went wrong, or there is no data...
         $referblacklist = [];
@@ -325,32 +328,26 @@ function userScreen()
     $result  = $xoopsDB->queryF('SELECT id, hits FROM ' . $xoopsDB->prefix('stats_userscreen'));
     $usWidth = [];
     $i       = 0;
-    while (false !== (list($id, $hits) = $xoopsDB->fetchRow($result))) {
+    while (list($id, $hits) = $xoopsDB->fetchRow($result)) {
         switch ($id) {
             case '1':
                 $usWidth[$i]['id'] = '640';
                 break;
-
             case '2':
                 $usWidth[$i]['id'] = '800';
                 break;
-
             case '3':
                 $usWidth[$i]['id'] = '1024';
                 break;
-
             case '4':
                 $usWidth[$i]['id'] = '1152';
                 break;
-
             case '5':
                 $usWidth[$i]['id'] = '1280';
                 break;
-
             case '6':
                 $usWidth[$i]['id'] = '1600';
                 break;
-
             default:
                 $usWidth[$i]['id'] = STATS_SW_UNKNOWN;
                 break;
@@ -362,24 +359,20 @@ function userScreen()
     $result  = $xoopsDB->queryF('SELECT id, hits FROM ' . $xoopsDB->prefix('stats_usercolor'));
     $usColor = [];
     $i       = 0;
-    while (false !== (list($id, $hits) = $xoopsDB->fetchRow($result))) {
+    while (list($id, $hits) = $xoopsDB->fetchRow($result)) {
         switch ($id) {
             case '1':
                 $usColor[$i]['id'] = '8';
                 break;
-
             case '2':
                 $usColor[$i]['id'] = '16';
                 break;
-
             case '3':
                 $usColor[$i]['id'] = '24';
                 break;
-
             case '4':
                 $usColor[$i]['id'] = '32';
                 break;
-
             default:
                 $usColor[$i]['id'] = STATS_SC_UNKNOWN;
                 break;
@@ -466,9 +459,8 @@ xoops_cp_header();
 switch ($op) {
     case INFO_CREDITS:
         phpcredits(CREDITS_ALL - CREDITS_FULLPAGE);
-        echo '<hr><a href="main.php">' . STATS_ADMINHEAD . "</a>\n";
+        echo '<hr><a href="index.php">' . STATS_ADMINHEAD . "</a>\n";
         break;
-
     case INFO_GENERAL:
     case INFO_CONFIGURATION:
     case INFO_MODULES:
@@ -486,12 +478,11 @@ switch ($op) {
         $php_info = str_replace('<html><body>', '', $php_info);
         $php_info = str_replace('</body></html>', '', $php_info);
 
-        $offset = strpos($php_info, '<table');
+        $offset = mb_strpos($php_info, '<table');
 
-        print substr($php_info, $offset);
-        echo '<hr><a href="main.php">' . STATS_ADMINHEAD . "</a>\n";
+        print mb_substr($php_info, $offset);
+        echo '<hr><a href="index.php">' . STATS_ADMINHEAD . "</a>\n";
         break;
-
     case 'reverseip':
         if (!isset($_POST['iplookup'])) {
             $iplookup = \Xmf\Request::getString('iplookup', '', 'GET');
@@ -503,9 +494,8 @@ switch ($op) {
             statsreverselookup($iplookup);
         }
         remoteAddr();
-        echo '<hr><a href="main.php">' . STATS_ADMINHEAD . "</a>\n";
+        echo '<hr><a href="index.php">' . STATS_ADMINHEAD . "</a>\n";
         break;
-
     case 'xwhois':
         if (!isset($_POST['dnslookup'])) {
             $dnslookup = \Xmf\Request::getString('dnslookup', '', 'GET');
@@ -524,32 +514,28 @@ switch ($op) {
         }
 
         referDB($orderby);
-        echo '<hr><a href="main.php">' . STATS_ADMINHEAD . "</a>\n";
+        echo '<hr><a href="index.php">' . STATS_ADMINHEAD . "</a>\n";
         break;
-
     case 'unique_ips':
         uniqueRemoteAddr();
-        echo '<hr><a href="main.php">' . STATS_ADMINHEAD . "</a>\n";
+        echo '<hr><a href="index.php">' . STATS_ADMINHEAD . "</a>\n";
         break;
-
     case 'remote_addr':
         remoteAddr();
-        echo '<hr><a href="main.php">' . STATS_ADMINHEAD . "</a>\n";
+        echo '<hr><a href="index.php">' . STATS_ADMINHEAD . "</a>\n";
         break;
-
     case 'purge_ips':
-        if (isset($_POST['confirm']) && 'purge_ips' === $_POST['confirm']) {
+        if (\Xmf\Request::hasVar('confirm', 'POST') && 'purge_ips' === $_POST['confirm']) {
             purgeRemoteAddr();
         } else {
             $hidden = [
                 confirm => 'purge_ips',
-                op      => 'purge_ips'
+                op      => 'purge_ips',
             ];
             xoops_confirm($hidden, 'main.php', STATS_REMOTEADDR_PURGESURE, STATS_IPPURGE);
         }
-        echo '<hr><a href="main.php">' . STATS_ADMINHEAD . "</a>\n";
+        echo '<hr><a href="index.php">' . STATS_ADMINHEAD . "</a>\n";
         break;
-
     case 'refer':
         if (!isset($_POST['orderby'])) {
             $orderby = isset($_GET['orderby']) ? $_GET['orderby'] : 'date';
@@ -558,69 +544,63 @@ switch ($op) {
         }
 
         referDB($orderby);
-        echo '<hr><a href="main.php">' . STATS_ADMINHEAD . "</a>\n";
+        echo '<hr><a href="index.php">' . STATS_ADMINHEAD . "</a>\n";
         break;
-
     case 'purge_refer':
-        if (isset($_POST['confirm']) && 'purge_refer' === $_POST['confirm']) {
+        if (\Xmf\Request::hasVar('confirm', 'POST') && 'purge_refer' === $_POST['confirm']) {
             purgeReferDB();
         } else {
             $hidden = [
                 confirm => 'purge_refer',
-                op      => 'purge_refer'
+                op      => 'purge_refer',
             ];
             xoops_confirm($hidden, 'main.php', STATS_REFER_PURGESURE, STATS_REFERPURGE);
         }
-        echo '<hr><a href="main.php">' . STATS_ADMINHEAD . "</a>\n";
+        echo '<hr><a href="index.php">' . STATS_ADMINHEAD . "</a>\n";
         break;
-
     case 'blacklist_refer':
-        if (isset($_POST['bad_refer']) && '' != $_POST['bad_refer']) {
+        if (\Xmf\Request::hasVar('bad_refer', 'POST') && '' != $_POST['bad_refer']) {
             $hidden = [
                 confirm => 'blacklist_refer',
                 op      => 'blacklist_refer',
-                blr     => $_POST['bad_refer']
+                blr     => $_POST['bad_refer'],
             ];
             xoops_confirm($hidden, 'main.php', STATS_REFER_BLSURE, STATS_REFERBLACKLIST);
-        } elseif (isset($_POST['confirm']) && 'blacklist_refer' === $_POST['confirm']) {
+        } elseif (\Xmf\Request::hasVar('confirm', 'POST') && 'blacklist_refer' === $_POST['confirm']) {
             blacklistReferDB($_POST['blr']);
         } else {
             referDB();
         }
-        echo '<hr><a href="main.php">' . STATS_ADMINHEAD . "</a>\n";
+        echo '<hr><a href="index.php">' . STATS_ADMINHEAD . "</a>\n";
         break;
-
     case 'purge_blacklist':
-        if (isset($_POST['confirm']) && 'purge_blacklist' === $_POST['confirm']) {
+        if (\Xmf\Request::hasVar('confirm', 'POST') && 'purge_blacklist' === $_POST['confirm']) {
             purgeBlacklist();
         } else {
             $hidden = [
                 confirm => 'purge_blacklist',
-                op      => 'purge_blacklist'
+                op      => 'purge_blacklist',
             ];
             xoops_confirm($hidden, 'main.php', STATS_REFER_PURGEBL, STATS_PURGEBL);
         }
-        echo '<hr><a href="main.php">' . STATS_ADMINHEAD . "</a>\n";
+        echo '<hr><a href="index.php">' . STATS_ADMINHEAD . "</a>\n";
         break;
-
     case 'userscreen':
         userScreen();
-        echo '<hr><a href="main.php">' . STATS_ADMINHEAD . "</a>\n";
+        echo '<hr><a href="index.php">' . STATS_ADMINHEAD . "</a>\n";
         break;
-
     case 'purge_userscreen':
-        if (isset($_POST['confirm']) && 'purge_userscreen' === $_POST['confirm']) {
+        if (\Xmf\Request::hasVar('confirm', 'POST') && 'purge_userscreen' === $_POST['confirm']) {
             purgeUserScreen();
         } else {
             $hidden = [
                 confirm => 'purge_userscreen',
-                op      => 'purge_userscreen'
+                op      => 'purge_userscreen',
             ];
             xoops_confirm($hidden, 'main.php', STATS_REFER_PURGEUS, STATS_SCREEN_PURGE);
         }
-        echo '<hr><a href="main.php">' . STATS_ADMINHEAD . "</a>\n";
+        echo '<hr><a href="index.php">' . STATS_ADMINHEAD . "</a>\n";
         break;
-
     default:
         //    stats_adminmenu( STATS_ADMINHEAD );
         break;

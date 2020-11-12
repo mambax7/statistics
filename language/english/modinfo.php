@@ -1,4 +1,5 @@
 <?php
+
 // The name of this module
 define('_MI_STATISTICS_NAME', 'Site Statistics');
 
@@ -42,25 +43,31 @@ define('_MI_CUSTOMFORBIDMSG', 'Custom Forbid Message');
 define('_MI_AUTOPURGEREFERERLIST', 'Auto-Purge Referer List Option');
 
 // Config Items Description
-define('_MI_REFERERSPAMDSC', 'Select the type of control to place on Referer SPAM.<br>'
-                             . '<b>Forbidden</b> - Blocked from your site, not counted<br>'
-                             . '<b>Ignore</b> - Blocked from the referer list, but still counted and viewable by the admin<br>'
-                             . '<b>Reflect</b> - Redirected to the referer site<br>'
-                             . '<b>Allow</b> - Do nothing');
+define(
+    '_MI_REFERERSPAMDSC',
+    'Select the type of control to place on Referer SPAM.<br>'
+    . '<b>Forbidden</b> - Blocked from your site, not counted<br>'
+    . '<b>Ignore</b> - Blocked from the referer list, but still counted and viewable by the admin<br>'
+    . '<b>Reflect</b> - Redirected to the referer site<br>'
+    . '<b>Allow</b> - Do nothing'
+);
 define('_MI_ALLOWFILTERIPHITSDSC', 'Turn on filtering of IP hits to site?');
 define(
     '_MI_FILTERIPLISTDSC',
-       'Enter IP addresses that you do not want to count as valid visits or hits to your site.<br>' . 'Enter each IP seperated by <b>|</b><br>Example: 111.222.333.444|555.666.777.888<br>' . 'Regular expressions are supported<br>' . 'Example: ^111.222.333|111.222.333$|123[0-9]*'
+    'Enter IP addresses that you do not want to count as valid visits or hits to your site.<br>' . 'Enter each IP seperated by <b>|</b><br>Example: 111.222.333.444|555.666.777.888<br>' . 'Regular expressions are supported<br>' . 'Example: ^111.222.333|111.222.333$|123[0-9]*'
 );
 define(
     '_MI_BOTIDENTITIESDSC',
-       'Enter the name, term, or wildcard to count various bots.<br>' . 'Bots that are not identified can be counted as <b>Unknown</b> on your site.<br>' . 'Enter each Bot seperated by <b>|</b><br>Regular expressions are supported.' . '<br>Example: bot|^spider|arch$|badbot[a-z]*'
+    'Enter the name, term, or wildcard to count various bots.<br>' . 'Bots that are not identified can be counted as <b>Unknown</b> on your site.<br>' . 'Enter each Bot seperated by <b>|</b><br>Regular expressions are supported.' . '<br>Example: bot|^spider|arch$|badbot[a-z]*'
 );
 define('_MI_FORBIDBOTSDSC', 'Turn on blocking of bots to site?<br><i>This only blocks ' . 'bots identified in <b>Bots to Block</b> preferences.</i>');
-define('_MI_BOTSTOBLOCKDSC', 'This is only active if <b>Forbid Bots</b> preference is <b>yes</b><br>'
-                             . 'Enter the name, term, or wildcard to block various bots/harvesters/copyright checkers, etc.<br>'
-                             . 'Enter each Bot seperated by <b>|</b><br>Regular expressions are supported.'
-                             . '<br>Example: bot|^spider|arch$|badbot[a-z]*');
+define(
+    '_MI_BOTSTOBLOCKDSC',
+    'This is only active if <b>Forbid Bots</b> preference is <b>yes</b><br>'
+    . 'Enter the name, term, or wildcard to block various bots/harvesters/copyright checkers, etc.<br>'
+    . 'Enter each Bot seperated by <b>|</b><br>Regular expressions are supported.'
+    . '<br>Example: bot|^spider|arch$|badbot[a-z]*'
+);
 define('_MI_CUSTOMFORBIDMSGDSC', 'Enter the message to send to a blocked user.');
 define('_MI_AUTOPURGEREFERERDSC', 'Setting this to anything but <b>Never</b> will purge items older than the specified time.<br>' . 'Ex. - Set to 6 hours, then anything older than 6 hours is deleted from the list.');
 // Config Items values
@@ -76,7 +83,7 @@ define('_MI_AUTOPURGEFIVEDAY', '5 Days');
 //0.70
 //Help
 define('_MI_STATISTICS_DIRNAME', basename(dirname(dirname(__DIR__))));
-define('_MI_STATISTICS_HELP_HEADER', __DIR__.'/help/helpheader.tpl');
+define('_MI_STATISTICS_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('_MI_STATISTICS_BACK_2_ADMIN', 'Back to Administration of ');
 define('_MI_STATISTICS_OVERVIEW', 'Overview');
 

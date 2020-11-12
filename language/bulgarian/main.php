@@ -1,4 +1,5 @@
 <?php
+
 define('STATS_HEADING', 'Статистики за портала');
 define('STATS_USER_AGENT', 'Вашият браузър');
 define('STATS_BROWSERS', 'Браузъри');

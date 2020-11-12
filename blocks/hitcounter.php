@@ -11,10 +11,11 @@
 
 /**
  * @copyright      {@link https://xoops.org/ XOOPS Project}
- * @license        {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @license        {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @package
  * @since
  * @author         XOOPS Development Team
+ * @param mixed $options
  */
 
 /******************************************************************************
@@ -33,17 +34,17 @@ function b_hitcounter_show($options)
     $counter  = 0;
     $yearhits = [];
     $cnt      = 0;
-    while (false !== (list($year, $hits) = $xoopsDB->fetchRow($result))) {
+    while (list($year, $hits) = $xoopsDB->fetchRow($result)) {
         $counter += $hits;  // figure out total hits
 
         $yearhits[$cnt]['year']    = $year;
         $yearhits[$cnt]['counter'] = '';
-        if (strlen($hits) < 5) {
+        if (mb_strlen($hits) < 5) {
             $hits = sprintf('%05d', $hits);
         }
-        for ($i = 0, $iMax = strlen($hits); $i < $iMax; ++$i) {
+        for ($i = 0, $iMax = mb_strlen($hits); $i < $iMax; ++$i) {
             //the <img src> tag
-            $imgsrc                    = substr($hits, $i, 1);
+            $imgsrc                    = mb_substr($hits, $i, 1);
             $yearhits[$cnt]['counter'] .= '<img src="' . XOOPS_URL . '/modules/statistics/assets/images/' . $imgsrc . '.gif" border = "0">';
         }
 
@@ -55,12 +56,12 @@ function b_hitcounter_show($options)
     //loop through the values of $counter and
     //use the strlen function to check the length of $counter
     $cnt_graphic = '';
-    if (strlen($counter) < 5) {
+    if (mb_strlen($counter) < 5) {
         $counter = sprintf('%05d', $counter);
     }
-    for ($i = 0, $iMax = strlen($counter); $i < $iMax; ++$i) {
+    for ($i = 0, $iMax = mb_strlen($counter); $i < $iMax; ++$i) {
         //the <img src> tag
-        $imgsrc      = substr($counter, $i, 1);
+        $imgsrc      = mb_substr($counter, $i, 1);
         $cnt_graphic .= '<img src="' . XOOPS_URL . '/modules/statistics/assets/images/' . $imgsrc . '.gif" border = "0">';
     }
 
@@ -69,17 +70,17 @@ function b_hitcounter_show($options)
         $bcounter  = 0;
         $byearhits = [];
         $cnt       = 0;
-        while (false !== (list($year, $hits) = $xoopsDB->fetchRow($result))) {
+        while (list($year, $hits) = $xoopsDB->fetchRow($result)) {
             $bcounter += $hits;  // figure out total hits
 
             $byearhits[$cnt]['year']    = $year;
             $byearhits[$cnt]['counter'] = '';
-            if (strlen($hits) < 5) {
+            if (mb_strlen($hits) < 5) {
                 $hits = sprintf('%05d', $hits);
             }
-            for ($i = 0, $iMax = strlen($hits); $i < $iMax; ++$i) {
+            for ($i = 0, $iMax = mb_strlen($hits); $i < $iMax; ++$i) {
                 //the <img src> tag
-                $imgsrc                     = substr($hits, $i, 1);
+                $imgsrc                     = mb_substr($hits, $i, 1);
                 $byearhits[$cnt]['counter'] .= '<img src="' . XOOPS_URL . '/modules/statistics/assets/images/' . $imgsrc . '.gif" border = "0">';
             }
 
@@ -91,12 +92,12 @@ function b_hitcounter_show($options)
         //loop through the values of $counter and
         //use the strlen function to check the length of $counter
         $bcnt_graphic = '';
-        if (strlen($bcounter) < 5) {
+        if (mb_strlen($bcounter) < 5) {
             $bcounter = sprintf('%05d', $bcounter);
         }
-        for ($i = 0, $iMax = strlen($bcounter); $i < $iMax; ++$i) {
+        for ($i = 0, $iMax = mb_strlen($bcounter); $i < $iMax; ++$i) {
             //the <img src> tag
-            $imgsrc       = substr($bcounter, $i, 1);
+            $imgsrc       = mb_substr($bcounter, $i, 1);
             $bcnt_graphic .= '<img src="' . XOOPS_URL . '/modules/statistics/assets/images/' . $imgsrc . '.gif" border = "0">';
         }
     }

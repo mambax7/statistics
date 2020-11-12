@@ -1,20 +1,22 @@
 <?php
 
-include  dirname(dirname(__DIR__)) . '/mainfile.php';
-include __DIR__ . '/include/statutils.php';
+use XoopsModules\Statistics\Utility;
 
-$op    = \Xmf\Request::getCmd('op', 'main');
-if (isset($_GET['year'])) {
+require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+//require_once __DIR__ . '/include/statutils.php';
+
+$op = \Xmf\Request::getCmd('op', 'main');
+if (\Xmf\Request::hasVar('year', 'GET')) {
     $year = $_GET['year'];
 }
-if (isset($_GET['month'])) {
+if (\Xmf\Request::hasVar('month', 'GET')) {
     $month = $_GET['month'];
 }
-if (isset($_GET['date'])) {
+if (\Xmf\Request::hasVar('date', 'GET')) {
     $date = $_GET['date'];
 }
 
-include XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 
 function statDetails($op, $year, $month, $date)
 {
@@ -30,39 +32,33 @@ function statDetails($op, $year, $month, $date)
         case b_yearlystats:
             $GLOBALS['xoopsOption']['template_main'] = 'y_statdetails.tpl';
             $xoopsTpl->assign('lang_stat_hitdetail', STATS_BHITDETAIL);
-            getBlockedMonthlyStats($year);
+            Utility::getBlockedMonthlyStats($year);
             break;
-
         case b_monthlystats:
             $GLOBALS['xoopsOption']['template_main'] = 'm_statdetails.tpl';
             $xoopsTpl->assign('lang_stat_hitdetail', STATS_BHITDETAIL);
-            getBlockedDailyStats($year, $month);
+            Utility::getBlockedDailyStats($year, $month);
             break;
-
         case b_dailystats:
             $GLOBALS['xoopsOption']['template_main'] = 'd_statdetails.tpl';
             $xoopsTpl->assign('lang_stat_hitdetail', STATS_BHITDETAIL);
-            getBlockedHourlyStats($year, $month, $date);
+            Utility::getBlockedHourlyStats($year, $month, $date);
             break;
-
         case yearlystats:
             $GLOBALS['xoopsOption']['template_main'] = 'y_statdetails.tpl';
             $xoopsTpl->assign('lang_stat_hitdetail', STATS_HITDETAIL);
-            getMonthlyStats($year);
+            Utility::getMonthlyStats($year);
             break;
-
         case monthlystats:
             $GLOBALS['xoopsOption']['template_main'] = 'm_statdetails.tpl';
             $xoopsTpl->assign('lang_stat_hitdetail', STATS_HITDETAIL);
-            getDailyStats($year, $month);
+            Utility::getDailyStats($year, $month);
             break;
-
         case dailystats:
             $GLOBALS['xoopsOption']['template_main'] = 'd_statdetails.tpl';
             $xoopsTpl->assign('lang_stat_hitdetail', STATS_HITDETAIL);
-            getHourlyStats($year, $month, $date);
+            Utility::getHourlyStats($year, $month, $date);
             break;
-
         default:
             $GLOBALS['xoopsOption']['template_main'] = 'statdetails.tpl';
             $xoopsTpl->assign('lang_stat_invalidoperation', STATS_INVALIDOPERATION);
@@ -72,4 +68,4 @@ function statDetails($op, $year, $month, $date)
 
 statDetails($op, $year, $month, $date);
 
-include XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';
