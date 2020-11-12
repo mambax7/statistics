@@ -19,7 +19,7 @@
 
 require_once __DIR__ . '/preloads/autoloader.php';
 
-$modversion['version']             = 0.70;
+$modversion['version']             = 1.00;
 $modversion['module_status']       = 'RC-1';
 $modversion['release_date']        = '2020/11/11';
 $modversion['name']                = _MI_STATISTICS_NAME;
